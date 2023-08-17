@@ -17,10 +17,13 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>BrainCoRR</string>
+   <string>PulseWave</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QMenuBar{
+   <string notr="true">*{
+	background-color:rgb(0,0,0)
+}
+QMenuBar{
  	background-color:rgb(100,100,100)
 }
 QMenuBar::item{
@@ -68,15 +71,7 @@ QMenu{
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_8">
-       <item>
-        <widget class="QPushButton" name="btn_plot">
-         <property name="text">
-          <string>Plot</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <layout class="QVBoxLayout" name="verticalLayout_8"/>
      </widget>
     </item>
     <item>
@@ -357,11 +352,11 @@ QMenu{
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionOpen"/>
+    <addaction name="menu_file_open_action"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
-  <action name="actionOpen">
+  <action name="menu_file_open_action">
    <property name="text">
     <string>Open</string>
    </property>

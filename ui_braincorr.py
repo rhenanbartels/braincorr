@@ -17,8 +17,8 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
-    QMainWindow, QMenu, QMenuBar, QPushButton,
-    QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
+    QMainWindow, QMenu, QMenuBar, QSizePolicy,
+    QSpacerItem, QVBoxLayout, QWidget)
 
 from pyqtgraph import PlotWidget
 
@@ -28,7 +28,10 @@ class Ui_MainWindow(object):
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(1400, 800)
         MainWindow.setMinimumSize(QSize(1400, 800))
-        MainWindow.setStyleSheet(u"QMenuBar{\n"
+        MainWindow.setStyleSheet(u"*{\n"
+"	background-color:rgb(0,0,0)\n"
+"}\n"
+"QMenuBar{\n"
 " 	background-color:rgb(100,100,100)\n"
 "}\n"
 "QMenuBar::item{\n"
@@ -38,8 +41,8 @@ class Ui_MainWindow(object):
 " 	color:rgb(255,255,255);\n"
 "	background-color:rgb(100,100,100)\n"
 "}")
-        self.actionOpen = QAction(MainWindow)
-        self.actionOpen.setObjectName(u"actionOpen")
+        self.menu_file_open_action = QAction(MainWindow)
+        self.menu_file_open_action.setObjectName(u"menu_file_open_action")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.horizontalLayout = QHBoxLayout(self.centralwidget)
@@ -54,11 +57,6 @@ class Ui_MainWindow(object):
         self.left_menu.setFrameShadow(QFrame.Raised)
         self.verticalLayout_8 = QVBoxLayout(self.left_menu)
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
-        self.btn_plot = QPushButton(self.left_menu)
-        self.btn_plot.setObjectName(u"btn_plot")
-
-        self.verticalLayout_8.addWidget(self.btn_plot)
-
 
         self.horizontalLayout.addWidget(self.left_menu)
 
@@ -189,27 +187,16 @@ class Ui_MainWindow(object):
         MainWindow.setMenuBar(self.menubar)
 
         self.menubar.addAction(self.menuFile.menuAction())
-        self.menuFile.addAction(self.actionOpen)
+        self.menuFile.addAction(self.menu_file_open_action)
 
         self.retranslateUi(MainWindow)
 
         QMetaObject.connectSlotsByName(MainWindow)
-        self.btn_plot.clicked.connect(lambda: self.plot())
-        self.btn_plot.clicked.connect(lambda: self.plot())
     # setupUi
 
-    def plot(self):
-        x = [1, 2, 3, 4, 5]
-        y = [0.3, 0.87, 0.12, 1.2, 0.7]
-        self.top_plot.plot(x, y)
-        self.bottom_plot.plot(x, y)
-        self.side_top_plot.plot(x, y)
-        self.side_bottom_plot.plot(x, y)
-
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"BrainCoRR", None))
-        self.actionOpen.setText(QCoreApplication.translate("MainWindow", u"Open", None))
-        self.btn_plot.setText(QCoreApplication.translate("MainWindow", u"Plot", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"PulseWave", None))
+        self.menu_file_open_action.setText(QCoreApplication.translate("MainWindow", u"Open", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Results:", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
     # retranslateUi
