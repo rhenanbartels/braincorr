@@ -33,10 +33,9 @@ class Ui_MainWindow(object):
         self.menu_file_open_action.setObjectName(u"menu_file_open_action")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.horizontalLayout = QHBoxLayout(self.centralwidget)
-        self.horizontalLayout.setSpacing(0)
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout_3 = QGridLayout(self.centralwidget)
+        self.gridLayout_3.setObjectName(u"gridLayout_3")
+        self.gridLayout_3.setContentsMargins(0, 0, 0, 0)
         self.frame = QFrame(self.centralwidget)
         self.frame.setObjectName(u"frame")
         self.frame.setMinimumSize(QSize(350, 0))
@@ -236,7 +235,7 @@ class Ui_MainWindow(object):
 
         self.frame_10 = QFrame(self.frame)
         self.frame_10.setObjectName(u"frame_10")
-        self.frame_10.setMinimumSize(QSize(0, 100))
+        self.frame_10.setMinimumSize(QSize(0, 89))
         self.frame_10.setFrameShape(QFrame.StyledPanel)
         self.frame_10.setFrameShadow(QFrame.Raised)
         self.formLayout = QFormLayout(self.frame_10)
@@ -283,48 +282,18 @@ class Ui_MainWindow(object):
 
         self.frame_11 = QFrame(self.frame)
         self.frame_11.setObjectName(u"frame_11")
-        self.frame_11.setMinimumSize(QSize(0, 230))
+        self.frame_11.setMinimumSize(QSize(0, 180))
         self.frame_11.setFrameShape(QFrame.StyledPanel)
         self.frame_11.setFrameShadow(QFrame.Raised)
-        self.gridLayout_3 = QGridLayout(self.frame_11)
-        self.gridLayout_3.setObjectName(u"gridLayout_3")
+        self.gridLayout_4 = QGridLayout(self.frame_11)
+        self.gridLayout_4.setObjectName(u"gridLayout_4")
         self.label_16 = QLabel(self.frame_11)
         self.label_16.setObjectName(u"label_16")
         self.label_16.setMinimumSize(QSize(180, 0))
         self.label_16.setMaximumSize(QSize(170, 16777215))
         self.label_16.setFont(font)
-        self.label_16.setAlignment(Qt.AlignCenter)
 
-        self.gridLayout_3.addWidget(self.label_16, 0, 1, 1, 3)
-
-        self.label_18 = QLabel(self.frame_11)
-        self.label_18.setObjectName(u"label_18")
-        self.label_18.setMinimumSize(QSize(60, 0))
-        self.label_18.setMaximumSize(QSize(146, 16777215))
-
-        self.gridLayout_3.addWidget(self.label_18, 1, 0, 1, 1)
-
-        self.lineEdit_15 = QLineEdit(self.frame_11)
-        self.lineEdit_15.setObjectName(u"lineEdit_15")
-        self.lineEdit_15.setMaximumSize(QSize(90, 30))
-        self.lineEdit_15.setLayoutDirection(Qt.LeftToRight)
-        self.lineEdit_15.setAlignment(Qt.AlignCenter)
-
-        self.gridLayout_3.addWidget(self.lineEdit_15, 1, 1, 1, 1)
-
-        self.label_21 = QLabel(self.frame_11)
-        self.label_21.setObjectName(u"label_21")
-        self.label_21.setMaximumSize(QSize(10, 16777215))
-
-        self.gridLayout_3.addWidget(self.label_21, 1, 2, 1, 1)
-
-        self.lineEdit_14 = QLineEdit(self.frame_11)
-        self.lineEdit_14.setObjectName(u"lineEdit_14")
-        self.lineEdit_14.setMaximumSize(QSize(90, 30))
-        self.lineEdit_14.setLayoutDirection(Qt.LeftToRight)
-        self.lineEdit_14.setAlignment(Qt.AlignCenter)
-
-        self.gridLayout_3.addWidget(self.lineEdit_14, 1, 3, 1, 1)
+        self.gridLayout_4.addWidget(self.label_16, 0, 0, 1, 1)
 
         self.comboBox_3 = QComboBox(self.frame_11)
         self.comboBox_3.addItem("")
@@ -333,47 +302,18 @@ class Ui_MainWindow(object):
         self.comboBox_3.addItem("")
         self.comboBox_3.addItem("")
         self.comboBox_3.setObjectName(u"comboBox_3")
-        self.comboBox_3.setMinimumSize(QSize(225, 30))
-        self.comboBox_3.setMaximumSize(QSize(140, 16777215))
+        self.comboBox_3.setMinimumSize(QSize(200, 30))
+        self.comboBox_3.setMaximumSize(QSize(16777215, 16777215))
 
-        self.gridLayout_3.addWidget(self.comboBox_3, 2, 1, 1, 3)
+        self.gridLayout_4.addWidget(self.comboBox_3, 0, 1, 1, 3)
 
         self.label_17 = QLabel(self.frame_11)
         self.label_17.setObjectName(u"label_17")
-        self.label_17.setMinimumSize(QSize(180, 0))
-        self.label_17.setMaximumSize(QSize(170, 16777215))
+        self.label_17.setMinimumSize(QSize(123, 0))
+        self.label_17.setMaximumSize(QSize(170, 16777210))
         self.label_17.setFont(font)
-        self.label_17.setAlignment(Qt.AlignCenter)
 
-        self.gridLayout_3.addWidget(self.label_17, 3, 1, 1, 3)
-
-        self.label_19 = QLabel(self.frame_11)
-        self.label_19.setObjectName(u"label_19")
-        self.label_19.setMaximumSize(QSize(62, 16777215))
-
-        self.gridLayout_3.addWidget(self.label_19, 4, 0, 1, 1)
-
-        self.lineEdit_13 = QLineEdit(self.frame_11)
-        self.lineEdit_13.setObjectName(u"lineEdit_13")
-        self.lineEdit_13.setMaximumSize(QSize(90, 30))
-        self.lineEdit_13.setLayoutDirection(Qt.LeftToRight)
-        self.lineEdit_13.setAlignment(Qt.AlignCenter)
-
-        self.gridLayout_3.addWidget(self.lineEdit_13, 4, 1, 1, 1)
-
-        self.label_20 = QLabel(self.frame_11)
-        self.label_20.setObjectName(u"label_20")
-        self.label_20.setMaximumSize(QSize(10, 16777215))
-
-        self.gridLayout_3.addWidget(self.label_20, 4, 2, 1, 1)
-
-        self.lineEdit_12 = QLineEdit(self.frame_11)
-        self.lineEdit_12.setObjectName(u"lineEdit_12")
-        self.lineEdit_12.setMaximumSize(QSize(90, 30))
-        self.lineEdit_12.setLayoutDirection(Qt.LeftToRight)
-        self.lineEdit_12.setAlignment(Qt.AlignCenter)
-
-        self.gridLayout_3.addWidget(self.lineEdit_12, 4, 3, 1, 1)
+        self.gridLayout_4.addWidget(self.label_17, 1, 0, 1, 1)
 
         self.comboBox_4 = QComboBox(self.frame_11)
         self.comboBox_4.addItem("")
@@ -382,10 +322,41 @@ class Ui_MainWindow(object):
         self.comboBox_4.addItem("")
         self.comboBox_4.addItem("")
         self.comboBox_4.setObjectName(u"comboBox_4")
-        self.comboBox_4.setMinimumSize(QSize(225, 30))
-        self.comboBox_4.setMaximumSize(QSize(140, 16777215))
+        self.comboBox_4.setMinimumSize(QSize(200, 30))
+        self.comboBox_4.setMaximumSize(QSize(16777215, 16777215))
 
-        self.gridLayout_3.addWidget(self.comboBox_4, 5, 1, 1, 3)
+        self.gridLayout_4.addWidget(self.comboBox_4, 1, 1, 1, 3)
+
+        self.label_19 = QLabel(self.frame_11)
+        self.label_19.setObjectName(u"label_19")
+        self.label_19.setMaximumSize(QSize(62, 16777215))
+
+        self.gridLayout_4.addWidget(self.label_19, 2, 0, 1, 1)
+
+        self.lineEditStartTimeAxes = QLineEdit(self.frame_11)
+        self.lineEditStartTimeAxes.setObjectName(u"lineEditStartTimeAxes")
+        self.lineEditStartTimeAxes.setMinimumSize(QSize(70, 0))
+        self.lineEditStartTimeAxes.setMaximumSize(QSize(50, 30))
+        self.lineEditStartTimeAxes.setLayoutDirection(Qt.LeftToRight)
+        self.lineEditStartTimeAxes.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout_4.addWidget(self.lineEditStartTimeAxes, 2, 1, 1, 1)
+
+        self.label_18 = QLabel(self.frame_11)
+        self.label_18.setObjectName(u"label_18")
+        self.label_18.setMinimumSize(QSize(10, 0))
+        self.label_18.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout_4.addWidget(self.label_18, 2, 2, 1, 1)
+
+        self.lineEditEndTimeAxes = QLineEdit(self.frame_11)
+        self.lineEditEndTimeAxes.setObjectName(u"lineEditEndTimeAxes")
+        self.lineEditEndTimeAxes.setMinimumSize(QSize(70, 0))
+        self.lineEditEndTimeAxes.setMaximumSize(QSize(50, 30))
+        self.lineEditEndTimeAxes.setLayoutDirection(Qt.LeftToRight)
+        self.lineEditEndTimeAxes.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout_4.addWidget(self.lineEditEndTimeAxes, 2, 3, 1, 1)
 
 
         self.verticalLayout_2.addWidget(self.frame_11)
@@ -424,7 +395,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addWidget(self.frame_9)
 
 
-        self.horizontalLayout.addWidget(self.frame)
+        self.gridLayout_3.addWidget(self.frame, 0, 0, 1, 1)
 
         self.frame_2 = QFrame(self.centralwidget)
         self.frame_2.setObjectName(u"frame_2")
@@ -482,7 +453,7 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.frame_5)
 
 
-        self.horizontalLayout.addWidget(self.frame_2)
+        self.gridLayout_3.addWidget(self.frame_2, 0, 1, 1, 1)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
@@ -544,12 +515,6 @@ class Ui_MainWindow(object):
         self.label_15.setText(QCoreApplication.translate("MainWindow", u"Apply threshold:", None))
         self.radioButtonApplyCoherence.setText("")
         self.label_16.setText(QCoreApplication.translate("MainWindow", u"Top Axes:", None))
-        self.label_18.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">Time</span><span style=\" font-weight:700; vertical-align:sub;\"> (s)</span><span style=\" font-weight:700;\">:</span></p></body></html>", None))
-        self.lineEdit_15.setInputMask(QCoreApplication.translate("MainWindow", u"00", None))
-        self.lineEdit_15.setText(QCoreApplication.translate("MainWindow", u"0", None))
-        self.label_21.setText(QCoreApplication.translate("MainWindow", u"-", None))
-        self.lineEdit_14.setInputMask(QCoreApplication.translate("MainWindow", u"00", None))
-        self.lineEdit_14.setText("")
         self.comboBox_3.setItemText(0, QCoreApplication.translate("MainWindow", u"CBV - Signal", None))
         self.comboBox_3.setItemText(1, QCoreApplication.translate("MainWindow", u"CBV - PSD", None))
         self.comboBox_3.setItemText(2, QCoreApplication.translate("MainWindow", u"Gain", None))
@@ -557,18 +522,18 @@ class Ui_MainWindow(object):
         self.comboBox_3.setItemText(4, QCoreApplication.translate("MainWindow", u"Phase", None))
 
         self.label_17.setText(QCoreApplication.translate("MainWindow", u"Bottom Axes:", None))
-        self.label_19.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">Time </span><span style=\" font-weight:700; vertical-align:sub;\">(s)</span><span style=\" font-weight:700;\">:</span></p></body></html>", None))
-        self.lineEdit_13.setInputMask(QCoreApplication.translate("MainWindow", u"00", None))
-        self.lineEdit_13.setText(QCoreApplication.translate("MainWindow", u"0", None))
-        self.label_20.setText(QCoreApplication.translate("MainWindow", u"-", None))
-        self.lineEdit_12.setInputMask(QCoreApplication.translate("MainWindow", u"00", None))
-        self.lineEdit_12.setText("")
         self.comboBox_4.setItemText(0, QCoreApplication.translate("MainWindow", u"ABP - Signal", None))
         self.comboBox_4.setItemText(1, QCoreApplication.translate("MainWindow", u"ABP - PSD", None))
         self.comboBox_4.setItemText(2, QCoreApplication.translate("MainWindow", u"Gain", None))
         self.comboBox_4.setItemText(3, QCoreApplication.translate("MainWindow", u"Coherence", None))
         self.comboBox_4.setItemText(4, QCoreApplication.translate("MainWindow", u"Phase", None))
 
+        self.label_19.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">Time </span><span style=\" font-weight:700; vertical-align:sub;\">(s)</span><span style=\" font-weight:700;\">:</span></p></body></html>", None))
+        self.lineEditStartTimeAxes.setInputMask(QCoreApplication.translate("MainWindow", u"00000.00", None))
+        self.lineEditStartTimeAxes.setText(QCoreApplication.translate("MainWindow", u".", None))
+        self.label_18.setText(QCoreApplication.translate("MainWindow", u"-", None))
+        self.lineEditEndTimeAxes.setInputMask(QCoreApplication.translate("MainWindow", u"00000.00", None))
+        self.lineEditEndTimeAxes.setText(QCoreApplication.translate("MainWindow", u".", None))
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"Ready", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"Results", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
