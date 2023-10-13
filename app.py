@@ -117,7 +117,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.axes_1.showGrid(x=True, y=True, alpha=1.0)
         #self.top_plot.addItem(pg.LineROI([0,  90], [300, 0], width=1, pen=(1,9)))
 
-        self.lr = pg.LinearRegionItem([0, 300], pen=pg.mkPen(width=3.5))
+        self.lr = pg.LinearRegionItem([0, self.original_time[-1]], pen=pg.mkPen(width=3.5))
         self.lr.setZValue(-10)
 
         # Callback when area change.
@@ -133,7 +133,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.axes_2.setLabel("left", "ABP (mmHg)")
         self.axes_2.setLabel("bottom", "Time (s)")
         self.axes_2.showGrid(x=True, y=True, alpha=1.0)
-        self.lb = pg.LinearRegionItem([0, 300], pen=pg.mkPen(width=3.5))
+        self.lb = pg.LinearRegionItem([0, self.original_time[-1]], pen=pg.mkPen(width=3.5))
         self.lb.setZValue(-10)
 
         # Callback when area change.
