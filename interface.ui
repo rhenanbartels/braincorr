@@ -314,7 +314,7 @@
          </property>
          <layout class="QGridLayout" name="gridLayout_2">
           <item row="3" column="2">
-           <widget class="QLineEdit" name="lineEdit_9">
+           <widget class="QLineEdit" name="lineEditHFLower">
             <property name="maximumSize">
              <size>
               <width>40</width>
@@ -384,7 +384,7 @@
            </widget>
           </item>
           <item row="3" column="4">
-           <widget class="QLineEdit" name="lineEdit_10">
+           <widget class="QLineEdit" name="lineEditHFUpper">
             <property name="maximumSize">
              <size>
               <width>40</width>
@@ -410,7 +410,7 @@
            </widget>
           </item>
           <item row="2" column="2">
-           <widget class="QLineEdit" name="lineEdit_7">
+           <widget class="QLineEdit" name="lineEditLFLower">
             <property name="maximumSize">
              <size>
               <width>40</width>
@@ -429,7 +429,7 @@
            </widget>
           </item>
           <item row="0" column="4">
-           <widget class="QLineEdit" name="lineEdit_6">
+           <widget class="QLineEdit" name="lineEditVLFUpper">
             <property name="maximumSize">
              <size>
               <width>40</width>
@@ -448,7 +448,7 @@
            </widget>
           </item>
           <item row="2" column="4">
-           <widget class="QLineEdit" name="lineEdit_8">
+           <widget class="QLineEdit" name="lineEditLFUpper">
             <property name="maximumSize">
              <size>
               <width>40</width>
@@ -474,7 +474,7 @@
            </widget>
           </item>
           <item row="0" column="2">
-           <widget class="QLineEdit" name="lineEdit_5">
+           <widget class="QLineEdit" name="lineEditVLFLower">
             <property name="maximumSize">
              <size>
               <width>40</width>
@@ -980,7 +980,7 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="PlotWidget" name="axes_1"/>
+           <widget class="PlotWidget" name="top_plot"/>
           </item>
          </layout>
         </widget>
@@ -1010,7 +1010,7 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="PlotWidget" name="axes_2"/>
+           <widget class="PlotWidget" name="bottom_plot"/>
           </item>
          </layout>
         </widget>
@@ -1051,7 +1051,7 @@
      <x>0</x>
      <y>0</y>
      <width>1500</width>
-     <height>22</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

@@ -1,5 +1,11 @@
 import numpy
+import pandas
 import scipy
+
+
+def open_data_frame(file_path):
+    data = pandas.read_csv(file_path, sep="\t")
+    return data["Time"].values, data["MABP [mmHg]"].values, data["CBFV-L [cm/s]"].values
 
 
 def open_csv_file(file_path):
@@ -215,4 +221,5 @@ def tfa(abp, cbfv, fs, options: dict = None):
     results["coherence"] = coherence
     results["phase"] = phase
     results["coherence_threshold"] = coherence_threshold
+    results["frequency"] = frequency
     return results
