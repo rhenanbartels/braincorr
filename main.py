@@ -1,5 +1,6 @@
 import os
 import sys
+from functools import partial
 
 from PySide6.QtWidgets import QApplication, QFileDialog, QMainWindow
 
@@ -9,6 +10,9 @@ import pyqtgraph as pg
 
 from signal_processing import open_csv_file, open_data_frame, tfa
 from interface import Ui_MainWindow
+
+
+COMBO_TWIN_INDEX = 5
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -101,21 +105,31 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.results = tfa(self.abp, self.cbfv, fs)
 
     def change_top_axes(self):
+        p_plot_abp_cbfv = partial(self.plot_abp_cbfv, name="top")
+        if hasattr(self, "plot_item"):
+            self.top_axes.removeItem(self.plot_item)
+            self.bottom_axes.removeItem(self.view_box)
         {
             0: self.plot_cbfv,
             1: self.plot_cbfv_psd,
             2: self.plot_gain,
             3: self.plot_coherence,
             4: self.plot_phase,
+            COMBO_TWIN_INDEX: p_plot_abp_cbfv,
         }.get(self.topAxesComboBox.currentIndex(), lambda: None)(self.top_axes)
 
     def change_bottom_axes(self):
+        p_plot_abp_cbfv = partial(self.plot_abp_cbfv, name="bottom")
+        if hasattr(self, "plot_item"):
+            self.bottom_axes.removeItem(self.plot_item)
+            self.bottom_axes.removeItem(self.view_box)
         {
             0: self.plot_abp,
             1: self.plot_abp_psd,
             2: self.plot_gain,
             3: self.plot_coherence,
             4: self.plot_phase,
+            5: p_plot_abp_cbfv,
         }.get(self.bottomAxesComboBox.currentIndex(), lambda: None)(self.bottom_axes)
 
     def update_top_roi(self):
@@ -196,7 +210,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             freq,
             self.results["gain"],
             xlabel="Frequency (Hz)",
-            ylabel="gain",
+            ylabel="Gain",
             xlim=[0, self.hf_range[1]],
             color="g"
         )
@@ -209,7 +223,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             freq,
             self.results["coherence"],
             xlabel="Frequency (Hz)",
-            ylabel="Coherence",
+            ylabel="|Coherence|²",
             xlim=[0, self.hf_range[1]],
             color="g"
         )
@@ -229,19 +243,94 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             freq,
             self.results["phase"],
             xlabel="Frequency (Hz)",
-            ylabel="Phase",
+            ylabel="Phase (deg)",
             xlim=[0, self.hf_range[1]],
             color="g"
         )
         self._add_frequency_bands_lines(axes)
 
-    def plot_time_series(self, axes, time, signal, xlabel, ylabel, xlim, color):
-        axes.clear()
-        axes.plot(time, signal, pen=pg.mkPen(color,  width=2))
+    def purge_multiple_axes(self):
+        # Do not delete twin plot if it is appearing in another axes
+        top_has_twin = self.topAxesComboBox.currentIndex() == COMBO_TWIN_INDEX
+        bottom_has_twin = self.bottomAxesComboBox.currentIndex() == COMBO_TWIN_INDEX
+        if hasattr(self, "top_twin_plot_item") and not top_has_twin:
+            self.top_twin_plot_item.clear()
+            self.top_twin_view_box.clear()
+            self.top_curve_item.clear()
+            self.top_twin_plot_item.legend.removeItem(self.top_curve_item)
+            delattr(self, "top_twin_plot_item")
+            delattr(self, "top_twin_view_box")
+
+        if hasattr(self, "bottom_twin_plot_item") and not bottom_has_twin:
+            self.bottom_twin_plot_item.clear()
+            self.bottom_twin_view_box.clear()
+            self.bottom_twin_plot_item.legend.removeItem(self.bottom_curve_item)
+            delattr(self, "bottom_twin_plot_item")
+            delattr(self, "bottom_twin_view_box")
+
+    #TODO: change name
+    def plot_time_series(
+        self, axes, time, signal, xlabel, ylabel, xlim, color, name=None, clear=True
+    ):
+        self.purge_multiple_axes()
+        if clear:
+            axes.clear()
+        axes.plot(time, signal, pen=pg.mkPen(color,  width=2), name=name)
         axes.setLabel("left", ylabel)
         axes.setLabel("bottom", xlabel)
         axes.showGrid(x=True, y=True, alpha=1.0)
         axes.setRange(xRange=xlim)
+
+    def plot_abp_cbfv(self, axes, name):
+        axes.clear()
+        axes.addLegend()
+
+        plot_item = axes.plotItem
+        plot_item.setLabels(left='axis 1')
+
+        view_box = pg.ViewBox()
+        plot_item.showAxis("right")
+        plot_item.scene().addItem(view_box)
+        plot_item.getAxis("right").linkToView(view_box)
+        view_box.setXLink(plot_item)
+        plot_item.getAxis('right').setLabel("CBFV (cm/s)")
+
+        self.plot_time_series(
+            plot_item,
+            self.time,
+            self.abp,
+            xlabel="Time (s)",
+            ylabel="ABP (mmHg)",
+            xlim=[0, self.duration],
+            color="y",
+            name="ABP",
+            clear=False
+        )
+
+        curve_item = pg.PlotCurveItem(
+            self.time,
+            self.cbfv,
+            pen=pg.mkPen("g",  width=2)
+        )
+        view_box.addItem(curve_item)
+        plot_item.legend.addItem(curve_item, "CBFV")
+
+        def update_views(plot_item, view_box, *args):
+            view_box.setGeometry(plot_item.vb.sceneBoundingRect())
+            view_box.linkedViewChanged(plot_item.vb, view_box.XAxis)
+
+        p_update_views = partial(update_views, plot_item, view_box)
+        p_update_views()
+        plot_item.vb.sigResized.connect(p_update_views)
+
+        if name == "top":
+            self.top_twin_plot_item = plot_item
+            self.top_twin_view_box = view_box
+            self.top_curve_item = curve_item
+        elif name == "bottom":
+            self.bottom_twin_plot_item = plot_item
+            self.bottom_twin_view_box = view_box
+            self.bottom_curve_item = curve_item
 
     def _add_frequency_line(self, axes, x, ylim):
         axes.addLine(
@@ -260,6 +349,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self._add_frequency_line(axes, x=[self.hf_range[1], self.hf_range[1]], ylim=ylim)
 
     def plot_psd(self, axes, frequency, psd, vlf, lf, hf):
+        self.purge_multiple_axes()
+
         # For aesthetic purpose, we are interpolating and resampling the PSD
         # for increased visual frequency resolution
         interp_frequency = numpy.arange(frequency[0], frequency[-1], 1 / 10000.0)

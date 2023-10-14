@@ -314,6 +314,7 @@ class Ui_MainWindow(object):
         self.topAxesComboBox.addItem("")
         self.topAxesComboBox.addItem("")
         self.topAxesComboBox.addItem("")
+        self.topAxesComboBox.addItem("")
         self.topAxesComboBox.setObjectName(u"topAxesComboBox")
         self.topAxesComboBox.setMinimumSize(QSize(200, 30))
         self.topAxesComboBox.setMaximumSize(QSize(16777215, 16777215))
@@ -329,6 +330,7 @@ class Ui_MainWindow(object):
         self.gridLayout_4.addWidget(self.label_17, 1, 0, 1, 1)
 
         self.bottomAxesComboBox = QComboBox(self.frame_11)
+        self.bottomAxesComboBox.addItem("")
         self.bottomAxesComboBox.addItem("")
         self.bottomAxesComboBox.addItem("")
         self.bottomAxesComboBox.addItem("")
@@ -528,11 +530,12 @@ class Ui_MainWindow(object):
         self.label_15.setText(QCoreApplication.translate("MainWindow", u"Apply threshold:", None))
         self.radioButtonApplyCoherence.setText("")
         self.label_16.setText(QCoreApplication.translate("MainWindow", u"Top Axes:", None))
-        self.topAxesComboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"CBV - Signal", None))
-        self.topAxesComboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"CBV - PSD", None))
+        self.topAxesComboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"CBFV - Signal", None))
+        self.topAxesComboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"CBFV - PSD", None))
         self.topAxesComboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"Gain", None))
         self.topAxesComboBox.setItemText(3, QCoreApplication.translate("MainWindow", u"Coherence", None))
         self.topAxesComboBox.setItemText(4, QCoreApplication.translate("MainWindow", u"Phase", None))
+        self.topAxesComboBox.setItemText(5, QCoreApplication.translate("MainWindow", u"ABP x CBFV", None))
 
         self.label_17.setText(QCoreApplication.translate("MainWindow", u"Bottom Axes:", None))
         self.bottomAxesComboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"ABP - Signal", None))
@@ -540,6 +543,7 @@ class Ui_MainWindow(object):
         self.bottomAxesComboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"Gain", None))
         self.bottomAxesComboBox.setItemText(3, QCoreApplication.translate("MainWindow", u"Coherence", None))
         self.bottomAxesComboBox.setItemText(4, QCoreApplication.translate("MainWindow", u"Phase", None))
+        self.bottomAxesComboBox.setItemText(5, QCoreApplication.translate("MainWindow", u"ABP x CBFV", None))
 
         self.label_19.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">Time </span><span style=\" font-weight:700; vertical-align:sub;\">(s)</span><span style=\" font-weight:700;\">:</span></p></body></html>", None))
         self.lineEditStartTimeAxes.setInputMask(QCoreApplication.translate("MainWindow", u"00000.00", None))

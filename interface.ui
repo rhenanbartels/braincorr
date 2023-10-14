@@ -694,12 +694,12 @@
             </property>
             <item>
              <property name="text">
-              <string>CBV - Signal</string>
+              <string>CBFV - Signal</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>CBV - PSD</string>
+              <string>CBFV - PSD</string>
              </property>
             </item>
             <item>
@@ -715,6 +715,11 @@
             <item>
              <property name="text">
               <string>Phase</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>ABP x CBFV</string>
              </property>
             </item>
            </widget>
@@ -781,6 +786,11 @@
             <item>
              <property name="text">
               <string>Phase</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>ABP x CBFV</string>
              </property>
             </item>
            </widget>
