@@ -512,6 +512,18 @@
            </widget>
           </item>
          </layout>
+         <zorder>lineEditHFLower</zorder>
+         <zorder>label_9</zorder>
+         <zorder>label_7</zorder>
+         <zorder>label_8</zorder>
+         <zorder>label_10</zorder>
+         <zorder>lineEditLFLower</zorder>
+         <zorder>lineEditVLFUpper</zorder>
+         <zorder>lineEditLFUpper</zorder>
+         <zorder>label_12</zorder>
+         <zorder>lineEditVLFLower</zorder>
+         <zorder>label_6</zorder>
+         <zorder>lineEditHFUpper</zorder>
         </widget>
        </item>
        <item>
@@ -664,7 +676,7 @@
            </widget>
           </item>
           <item row="0" column="1" colspan="3">
-           <widget class="QComboBox" name="comboBox_3">
+           <widget class="QComboBox" name="topAxesComboBox">
             <property name="minimumSize">
              <size>
               <width>200</width>
@@ -730,7 +742,7 @@
            </widget>
           </item>
           <item row="1" column="1" colspan="3">
-           <widget class="QComboBox" name="comboBox_4">
+           <widget class="QComboBox" name="bottomAxesComboBox">
             <property name="minimumSize">
              <size>
               <width>200</width>
