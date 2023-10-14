@@ -29,6 +29,7 @@ class Ui_MainWindow(object):
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(1500, 1000)
         MainWindow.setMinimumSize(QSize(1500, 1000))
+        MainWindow.setStyleSheet(u"")
         self.menu_file_open_action = QAction(MainWindow)
         self.menu_file_open_action.setObjectName(u"menu_file_open_action")
         self.centralwidget = QWidget(MainWindow)
@@ -425,10 +426,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_5.setSpacing(0)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
-        self.top_plot = PlotWidget(self.frame_3)
-        self.top_plot.setObjectName(u"top_plot")
+        self.top_axes = PlotWidget(self.frame_3)
+        self.top_axes.setObjectName(u"top_axes")
 
-        self.verticalLayout_5.addWidget(self.top_plot)
+        self.verticalLayout_5.addWidget(self.top_axes)
 
 
         self.verticalLayout.addWidget(self.frame_3)
@@ -441,10 +442,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.setSpacing(0)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
-        self.bottom_plot = PlotWidget(self.frame_4)
-        self.bottom_plot.setObjectName(u"bottom_plot")
+        self.bottom_axes = PlotWidget(self.frame_4)
+        self.bottom_axes.setObjectName(u"bottom_axes")
 
-        self.verticalLayout_4.addWidget(self.bottom_plot)
+        self.verticalLayout_4.addWidget(self.bottom_axes)
 
 
         self.verticalLayout.addWidget(self.frame_4)

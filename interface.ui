@@ -19,6 +19,9 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_3">
     <property name="leftMargin">
@@ -992,7 +995,7 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="PlotWidget" name="top_plot"/>
+           <widget class="PlotWidget" name="top_axes"/>
           </item>
          </layout>
         </widget>
@@ -1022,7 +1025,7 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="PlotWidget" name="bottom_plot"/>
+           <widget class="PlotWidget" name="bottom_axes"/>
           </item>
          </layout>
         </widget>

@@ -22,8 +22,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.menu_file_open_action.triggered.connect(self.open_file)
 
         # Combo boxes
-        self.topAxesComboBox.currentIndexChanged.connect(self.change_top_plot)
-        self.bottomAxesComboBox.currentIndexChanged.connect(self.change_bottom_plot)
+        self.topAxesComboBox.currentIndexChanged.connect(self.change_top_axes)
+        self.bottomAxesComboBox.currentIndexChanged.connect(self.change_bottom_axes)
 
         # Init last opened directory
         self.last_dir = "."
@@ -91,8 +91,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.time, self.abp, self.cbfv = open_data_frame(self.file_path)
             self._set_file_name(self.file_path)
 
-            self.plot_cbfv()
-            self.plot_abp()
+            self.plot_cbfv(self.top_axes)
+            self.plot_abp(self.bottom_axes)
             self._update_edit_time_ranges(region=(0, self.duration))
 
             # Signal Processing
@@ -100,17 +100,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             fs = 10.0
             self.results = tfa(self.abp, self.cbfv, fs)
 
-    def change_top_plot(self):
+    def change_top_axes(self):
         {
             0: self.plot_cbfv,
             1: self.plot_cbfv_psd,
-        }.get(self.topAxesComboBox.currentIndex(), lambda: None)()
+            2: self.plot_gain,
+            3: self.plot_coherence,
+            4: self.plot_phase,
+        }.get(self.topAxesComboBox.currentIndex(), lambda: None)(self.top_axes)
 
-    def change_bottom_plot(self):
+    def change_bottom_axes(self):
         {
             0: self.plot_abp,
             1: self.plot_abp_psd,
-        }.get(self.bottomAxesComboBox.currentIndex(), lambda: None)()
+            2: self.plot_gain,
+            3: self.plot_coherence,
+            4: self.plot_phase,
+        }.get(self.bottomAxesComboBox.currentIndex(), lambda: None)(self.bottom_axes)
 
     def update_top_roi(self):
         # Do not let area outside signal
@@ -139,9 +145,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         axes.addItem(roi)
         return roi
 
-    def plot_cbfv(self):
+    def plot_cbfv(self, axes):
         self.plot_time_series(
-            self.top_plot,
+            axes,
             self.time,
             self.cbfv,
             xlabel="Time (s)",
@@ -149,11 +155,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             xlim=[0, self.duration],
             color="g"
         )
-        self.top_roi = self.add_roi(self.top_plot, self.update_top_roi)
+        self.top_roi = self.add_roi(self.top_axes, self.update_top_roi)
 
-    def plot_cbfv_psd(self):
+    def plot_cbfv_psd(self, axes):
         self.plot_psd(
-            self.top_plot,
+            axes,
             self.results["frequency"],
             self.results["pyy"],  # TODO: change pyy to cbfv_psd
             vlf=self.vlf_range,
@@ -161,9 +167,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             hf=self.hf_range,
         )
 
-    def plot_abp(self):
+    def plot_abp(self, axes):
         self.plot_time_series(
-            self.bottom_plot,
+            axes,
             self.time,
             self.abp,
             xlabel="Time (s)",
@@ -171,17 +177,63 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             xlim=[0, self.duration],
             color="y"
         )
-        self.bottom_roi = self.add_roi(self.bottom_plot, self.update_bottom_roi)
+        self.bottom_roi = self.add_roi(self.bottom_axes, self.update_bottom_roi)
 
-    def plot_abp_psd(self):
+    def plot_abp_psd(self, axes):
         self.plot_psd(
-            self.bottom_plot,
+            axes,
             self.results["frequency"],
             self.results["pxx"],  # TODO: change pxx to abp_psd
             vlf=self.vlf_range,
             lf=self.lf_range,
             hf=self.hf_range,
         )
+
+    def plot_gain(self, axes):
+        freq = self.results["frequency"]
+        self.plot_time_series(
+            axes,
+            freq,
+            self.results["gain"],
+            xlabel="Frequency (Hz)",
+            ylabel="gain",
+            xlim=[0, self.hf_range[1]],
+            color="g"
+        )
+        self._add_frequency_bands_lines(axes)
+
+    def plot_coherence(self, axes):
+        freq = self.results["frequency"]
+        self.plot_time_series(
+            axes,
+            freq,
+            self.results["coherence"],
+            xlabel="Frequency (Hz)",
+            ylabel="Coherence",
+            xlim=[0, self.hf_range[1]],
+            color="g"
+        )
+        self._add_frequency_bands_lines(axes)
+        # Add coherence threshold line
+        threshold = self.results.get("coherence_threshold", None)
+        axes.addLine(
+            x=None,
+            y=threshold,
+            pen=pg.mkPen("r", width=2)
+        )
+
+    def plot_phase(self, axes):
+        freq = self.results["frequency"]
+        self.plot_time_series(
+            axes,
+            freq,
+            self.results["phase"],
+            xlabel="Frequency (Hz)",
+            ylabel="Phase",
+            xlim=[0, self.hf_range[1]],
+            color="g"
+        )
+        self._add_frequency_bands_lines(axes)
 
     def plot_time_series(self, axes, time, signal, xlabel, ylabel, xlim, color):
         axes.clear()
@@ -197,6 +249,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             y=ylim,
             pen=pg.mkPen("w", width=2, dash=[2, 4])
         )
+
+    def _add_frequency_bands_lines(self, axes):
+        ylim = axes.getAxis("left").range
+        self._add_frequency_line(axes, x=[self.vlf_range[0], self.vlf_range[0]], ylim=ylim)
+        self._add_frequency_line(axes, x=[self.vlf_range[1], self.vlf_range[1]], ylim=ylim)
+        self._add_frequency_line(axes, x=[self.lf_range[0], self.lf_range[0]], ylim=ylim)
+        self._add_frequency_line(axes, x=[self.lf_range[1], self.lf_range[1]], ylim=ylim)
+        self._add_frequency_line(axes, x=[self.hf_range[0], self.hf_range[0]], ylim=ylim)
+        self._add_frequency_line(axes, x=[self.hf_range[1], self.hf_range[1]], ylim=ylim)
 
     def plot_psd(self, axes, frequency, psd, vlf, lf, hf):
         # For aesthetic purpose, we are interpolating and resampling the PSD
@@ -251,13 +312,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         axes.showGrid(x=True, y=True, alpha=1.0)
 
         # Add frequency band lines
-        ylim = axes.getAxis("left").range
-        self._add_frequency_line(axes, x=[vlf[0], vlf[0]], ylim=ylim)
-        self._add_frequency_line(axes, x=[vlf[1], vlf[1]], ylim=ylim)
-        self._add_frequency_line(axes, x=[lf[0], lf[0]], ylim=ylim)
-        self._add_frequency_line(axes, x=[lf[1], lf[1]], ylim=ylim)
-        self._add_frequency_line(axes, x=[hf[0], hf[0]], ylim=ylim)
-        self._add_frequency_line(axes, x=[hf[1], hf[1]], ylim=ylim)
+        self._add_frequency_bands_lines(axes)
 
 
 if __name__ == "__main__":
