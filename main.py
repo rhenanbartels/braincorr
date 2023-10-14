@@ -4,6 +4,7 @@ import sys
 from PySide6.QtWidgets import QApplication, QFileDialog, QMainWindow
 
 import numpy
+import scipy
 import pyqtgraph as pg
 
 from signal_processing import open_csv_file, open_data_frame, tfa
@@ -190,29 +191,73 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         axes.showGrid(x=True, y=True, alpha=1.0)
         axes.setRange(xRange=xlim)
 
-    def plot_psd(self, axes, frequency, psd, vlf, lf, hf):
-        # For aesthetic reasons, the psd plot starts at 0 Hz and goes 1 frequency beyond its boundary
-        indexes_vlf = numpy.where(numpy.logical_and(frequency >= 0, frequency < vlf[1]))[0]
-        indexes_lf = numpy.where(numpy.logical_and(frequency >= lf[0], frequency < lf[1]))[0]
-        indexes_hf = numpy.where(numpy.logical_and(frequency >= hf[0], frequency < hf[1]))[0]
+    def _add_frequency_line(self, axes, x, ylim):
+        axes.addLine(
+            x=x,
+            y=ylim,
+            pen=pg.mkPen("w", width=2, dash=[2, 4])
+        )
 
-        # Interp areas
-        indexes_vlf = numpy.append(indexes_vlf, indexes_vlf[-1] + 1)
-        indexes_lf = numpy.append(indexes_lf, indexes_lf[-1] + 1)
+    def plot_psd(self, axes, frequency, psd, vlf, lf, hf):
+        # For aesthetic purpose, we are interpolating and resampling the PSD
+        # for increased visual frequency resolution
+        interp_frequency = numpy.arange(frequency[0], frequency[-1], 1 / 10000.0)
+        cs = scipy.interpolate.CubicSpline(frequency, psd)
+        interp_psd = cs(interp_frequency)
+
+        indexes_vlf = numpy.where(
+            numpy.logical_and(interp_frequency >= vlf[0], interp_frequency < vlf[1])
+        )[0]
+        indexes_lf = numpy.where(numpy.logical_and(
+            interp_frequency >= lf[0], interp_frequency < lf[1])
+        )[0]
+        indexes_hf = numpy.where(
+            numpy.logical_and(interp_frequency >= hf[0], interp_frequency < hf[1])
+        )[0]
 
         axes.clear()
+        # Total PSD
+        axes.plot(
+            interp_frequency,
+            interp_psd,
+            fillLevel=0.0,
+            brush=(127, 127, 127, 100)
+        )
         # VLF
-        axes.plot(frequency[indexes_vlf], psd[indexes_vlf], fillLevel=0.0, brush=(127, 127, 255, 200))
+        axes.plot(
+            interp_frequency[indexes_vlf],
+            interp_psd[indexes_vlf],
+            fillLevel=0.0,
+            brush=(127, 127, 255, 200)
+        )
         # LF
-        axes.plot(frequency[indexes_lf], psd[indexes_lf], fillLevel=0.0, brush=(178, 127, 255, 200))
+        axes.plot(
+            interp_frequency[indexes_lf],
+            interp_psd[indexes_lf],
+            fillLevel=0.0,
+            brush=(178, 127, 255, 200)
+        )
         # HF
-        axes.plot(frequency[indexes_hf], psd[indexes_hf], fillLevel=0.0, brush=(127, 127, 255, 200))
+        axes.plot(
+            interp_frequency[indexes_hf],
+            interp_psd[indexes_hf],
+            fillLevel=0.0,
+            brush=(127, 127, 255, 200)
+        )
 
         axes.setRange(xRange=[0, 0.5])
         axes.setLabel("left", "PSD (ms²/Hz)")
         axes.setLabel("bottom", "Frequency (Hz)")
         axes.showGrid(x=True, y=True, alpha=1.0)
-        # axes.removeItem(self.lb)
+
+        # Add frequency band lines
+        ylim = axes.getAxis("left").range
+        self._add_frequency_line(axes, x=[vlf[0], vlf[0]], ylim=ylim)
+        self._add_frequency_line(axes, x=[vlf[1], vlf[1]], ylim=ylim)
+        self._add_frequency_line(axes, x=[lf[0], lf[0]], ylim=ylim)
+        self._add_frequency_line(axes, x=[lf[1], lf[1]], ylim=ylim)
+        self._add_frequency_line(axes, x=[hf[0], hf[0]], ylim=ylim)
+        self._add_frequency_line(axes, x=[hf[1], hf[1]], ylim=ylim)
 
 
 if __name__ == "__main__":
