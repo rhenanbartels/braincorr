@@ -327,10 +327,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.top_twin_plot_item = plot_item
             self.top_twin_view_box = view_box
             self.top_curve_item = curve_item
+            self.top_roi = self.add_roi(self.top_axes, self.update_top_roi)
         elif name == "bottom":
             self.bottom_twin_plot_item = plot_item
             self.bottom_twin_view_box = view_box
             self.bottom_curve_item = curve_item
+            self.bottom_roi = self.add_roi(self.bottom_axes, self.update_bottom_roi)
 
     def _add_frequency_line(self, axes, x, ylim):
         axes.addLine(
