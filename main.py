@@ -217,6 +217,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self._add_frequency_bands_lines(axes)
 
     def plot_coherence(self, axes):
+        axes.addLegend()
         freq = self.results["frequency"]
         self.plot_time_series(
             axes,
@@ -233,7 +234,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         axes.addLine(
             x=None,
             y=threshold,
-            pen=pg.mkPen("r", width=2)
+            pen=pg.mkPen("r", width=2),
+            label=f"Threshold (={self.results['coherence_threshold']:.2f})"
         )
 
     def plot_phase(self, axes):
@@ -254,6 +256,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         top_has_twin = self.topAxesComboBox.currentIndex() == COMBO_TWIN_INDEX
         bottom_has_twin = self.bottomAxesComboBox.currentIndex() == COMBO_TWIN_INDEX
         if hasattr(self, "top_twin_plot_item") and not top_has_twin:
+            self.top_extra_axis.hide()
             self.top_twin_plot_item.clear()
             self.top_twin_view_box.clear()
             self.top_curve_item.clear()
@@ -262,13 +265,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             delattr(self, "top_twin_view_box")
 
         if hasattr(self, "bottom_twin_plot_item") and not bottom_has_twin:
+            self.bottom_extra_axis.hide()
             self.bottom_twin_plot_item.clear()
             self.bottom_twin_view_box.clear()
             self.bottom_twin_plot_item.legend.removeItem(self.bottom_curve_item)
             delattr(self, "bottom_twin_plot_item")
             delattr(self, "bottom_twin_view_box")
 
-    #TODO: change name
+    # TODO: change name
     def plot_time_series(
         self, axes, time, signal, xlabel, ylabel, xlim, color, name=None, clear=True
     ):
@@ -293,7 +297,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         plot_item.scene().addItem(view_box)
         plot_item.getAxis("right").linkToView(view_box)
         view_box.setXLink(plot_item)
-        plot_item.getAxis('right').setLabel("CBFV (cm/s)")
+        axis = plot_item.getAxis('right')
+        axis.setLabel("CBFV (cm/s)")
 
         self.plot_time_series(
             plot_item,
@@ -328,11 +333,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.top_twin_view_box = view_box
             self.top_curve_item = curve_item
             self.top_roi = self.add_roi(self.top_axes, self.update_top_roi)
+            self.top_extra_axis = axis
         elif name == "bottom":
             self.bottom_twin_plot_item = plot_item
             self.bottom_twin_view_box = view_box
             self.bottom_curve_item = curve_item
             self.bottom_roi = self.add_roi(self.bottom_axes, self.update_bottom_roi)
+            self.bottom_extra_axis = axis
 
     def _add_frequency_line(self, axes, x, ylim):
         axes.addLine(
