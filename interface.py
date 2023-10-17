@@ -17,9 +17,10 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QFormLayout, QFrame,
-    QGridLayout, QHBoxLayout, QLabel, QLineEdit,
-    QMainWindow, QMenu, QMenuBar, QRadioButton,
-    QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
+    QGridLayout, QHBoxLayout, QHeaderView, QLabel,
+    QLineEdit, QMainWindow, QMenu, QMenuBar,
+    QRadioButton, QSizePolicy, QSpacerItem, QTableWidget,
+    QTableWidgetItem, QVBoxLayout, QWidget)
 
 from pyqtgraph import PlotWidget
 
@@ -37,6 +38,66 @@ class Ui_MainWindow(object):
         self.gridLayout_3 = QGridLayout(self.centralwidget)
         self.gridLayout_3.setObjectName(u"gridLayout_3")
         self.gridLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.frame_2 = QFrame(self.centralwidget)
+        self.frame_2.setObjectName(u"frame_2")
+        self.frame_2.setFrameShape(QFrame.StyledPanel)
+        self.frame_2.setFrameShadow(QFrame.Raised)
+        self.verticalLayout = QVBoxLayout(self.frame_2)
+        self.verticalLayout.setSpacing(0)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.frame_3 = QFrame(self.frame_2)
+        self.frame_3.setObjectName(u"frame_3")
+        self.frame_3.setFrameShape(QFrame.StyledPanel)
+        self.frame_3.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_5 = QVBoxLayout(self.frame_3)
+        self.verticalLayout_5.setSpacing(0)
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.top_axes = PlotWidget(self.frame_3)
+        self.top_axes.setObjectName(u"top_axes")
+
+        self.verticalLayout_5.addWidget(self.top_axes)
+
+
+        self.verticalLayout.addWidget(self.frame_3)
+
+        self.frame_4 = QFrame(self.frame_2)
+        self.frame_4.setObjectName(u"frame_4")
+        self.frame_4.setFrameShape(QFrame.StyledPanel)
+        self.frame_4.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_4 = QVBoxLayout(self.frame_4)
+        self.verticalLayout_4.setSpacing(0)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.bottom_axes = PlotWidget(self.frame_4)
+        self.bottom_axes.setObjectName(u"bottom_axes")
+
+        self.verticalLayout_4.addWidget(self.bottom_axes)
+
+
+        self.verticalLayout.addWidget(self.frame_4)
+
+        self.frame_5 = QFrame(self.frame_2)
+        self.frame_5.setObjectName(u"frame_5")
+        self.frame_5.setMinimumSize(QSize(0, 150))
+        self.frame_5.setMaximumSize(QSize(16777215, 200))
+        self.frame_5.setFrameShape(QFrame.StyledPanel)
+        self.frame_5.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_3 = QVBoxLayout(self.frame_5)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.resultsTable = QTableWidget(self.frame_5)
+        self.resultsTable.setObjectName(u"resultsTable")
+
+        self.verticalLayout_3.addWidget(self.resultsTable)
+
+
+        self.verticalLayout.addWidget(self.frame_5)
+
+
+        self.gridLayout_3.addWidget(self.frame_2, 0, 1, 1, 1)
+
         self.frame = QFrame(self.centralwidget)
         self.frame.setObjectName(u"frame")
         self.frame.setMinimumSize(QSize(350, 0))
@@ -335,7 +396,6 @@ class Ui_MainWindow(object):
         self.bottomAxesComboBox.addItem("")
         self.bottomAxesComboBox.addItem("")
         self.bottomAxesComboBox.addItem("")
-        self.bottomAxesComboBox.addItem("")
         self.bottomAxesComboBox.setObjectName(u"bottomAxesComboBox")
         self.bottomAxesComboBox.setMinimumSize(QSize(200, 30))
         self.bottomAxesComboBox.setMaximumSize(QSize(16777215, 16777215))
@@ -412,64 +472,6 @@ class Ui_MainWindow(object):
 
         self.gridLayout_3.addWidget(self.frame, 0, 0, 1, 1)
 
-        self.frame_2 = QFrame(self.centralwidget)
-        self.frame_2.setObjectName(u"frame_2")
-        self.frame_2.setFrameShape(QFrame.StyledPanel)
-        self.frame_2.setFrameShadow(QFrame.Raised)
-        self.verticalLayout = QVBoxLayout(self.frame_2)
-        self.verticalLayout.setSpacing(0)
-        self.verticalLayout.setObjectName(u"verticalLayout")
-        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.frame_3 = QFrame(self.frame_2)
-        self.frame_3.setObjectName(u"frame_3")
-        self.frame_3.setFrameShape(QFrame.StyledPanel)
-        self.frame_3.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_5 = QVBoxLayout(self.frame_3)
-        self.verticalLayout_5.setSpacing(0)
-        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
-        self.top_axes = PlotWidget(self.frame_3)
-        self.top_axes.setObjectName(u"top_axes")
-
-        self.verticalLayout_5.addWidget(self.top_axes)
-
-
-        self.verticalLayout.addWidget(self.frame_3)
-
-        self.frame_4 = QFrame(self.frame_2)
-        self.frame_4.setObjectName(u"frame_4")
-        self.frame_4.setFrameShape(QFrame.StyledPanel)
-        self.frame_4.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_4 = QVBoxLayout(self.frame_4)
-        self.verticalLayout_4.setSpacing(0)
-        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
-        self.bottom_axes = PlotWidget(self.frame_4)
-        self.bottom_axes.setObjectName(u"bottom_axes")
-
-        self.verticalLayout_4.addWidget(self.bottom_axes)
-
-
-        self.verticalLayout.addWidget(self.frame_4)
-
-        self.frame_5 = QFrame(self.frame_2)
-        self.frame_5.setObjectName(u"frame_5")
-        self.frame_5.setMinimumSize(QSize(0, 150))
-        self.frame_5.setFrameShape(QFrame.StyledPanel)
-        self.frame_5.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_3 = QVBoxLayout(self.frame_5)
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.label_11 = QLabel(self.frame_5)
-        self.label_11.setObjectName(u"label_11")
-
-        self.verticalLayout_3.addWidget(self.label_11)
-
-
-        self.verticalLayout.addWidget(self.frame_5)
-
-
-        self.gridLayout_3.addWidget(self.frame_2, 0, 1, 1, 1)
-
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
@@ -543,7 +545,6 @@ class Ui_MainWindow(object):
         self.bottomAxesComboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"Gain", None))
         self.bottomAxesComboBox.setItemText(3, QCoreApplication.translate("MainWindow", u"Coherence", None))
         self.bottomAxesComboBox.setItemText(4, QCoreApplication.translate("MainWindow", u"Phase", None))
-        self.bottomAxesComboBox.setItemText(5, QCoreApplication.translate("MainWindow", u"ABP x CBFV", None))
 
         self.label_19.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">Time </span><span style=\" font-weight:700; vertical-align:sub;\">(s)</span><span style=\" font-weight:700;\">:</span></p></body></html>", None))
         self.lineEditStartTimeAxes.setInputMask(QCoreApplication.translate("MainWindow", u"00000.00", None))
@@ -552,7 +553,6 @@ class Ui_MainWindow(object):
         self.lineEditEndTimeAxes.setInputMask(QCoreApplication.translate("MainWindow", u"00000.00", None))
         self.lineEditEndTimeAxes.setText(QCoreApplication.translate("MainWindow", u".", None))
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"Ready", None))
-        self.label_11.setText(QCoreApplication.translate("MainWindow", u"Results", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
     # retranslateUi
 

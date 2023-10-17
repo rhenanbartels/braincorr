@@ -152,6 +152,8 @@ def tfa(abp, cbfv, fs, options: dict = None):
 
     avg_abp = abp.mean()
     avg_cbfv = cbfv.mean()
+    std_abp = abp.std()
+    std_cbfv = cbfv.std()
 
     abp = options["detrend"](abp - avg_abp)
     cbfv = options["detrend"](cbfv - avg_cbfv)
@@ -214,9 +216,11 @@ def tfa(abp, cbfv, fs, options: dict = None):
     results["n_windows"] = n_windows
     results["avg_abp"] = avg_abp
     results["avg_cbfv"] = avg_cbfv
-    results["pxx"] = pxx
-    results["pyy"] = pyy
-    results["pxy"] = pxy
+    results["std_abp"] = std_abp
+    results["std_cbfv"] = std_cbfv
+    results["pxx"] = abs(pxx)
+    results["pyy"] = abs(pyy)
+    results["pxy"] = abs(pxy)
     results["gain"] = abs(gain)
     results["coherence"] = abs(coherence) ** 2
     results["phase"] = abs(phase)

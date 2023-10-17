@@ -2,7 +2,8 @@ import os
 import sys
 from functools import partial
 
-from PySide6.QtWidgets import QApplication, QFileDialog, QMainWindow
+from PySide6.QtCore import QCoreApplication
+from PySide6.QtWidgets import QApplication, QFileDialog, QMainWindow, QTableWidgetItem
 
 import numpy
 import scipy
@@ -37,6 +38,79 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.top_roi = None
         self.bottom_roi = None
         self._roi_region = None
+
+        self._init_results_table()
+        self._set_empty_table()
+
+    def _init_results_table(self):
+        self.resultsTable.setRowCount(6)
+        self.resultsTable.setColumnCount(7)
+        self.resultsTable.setColumnWidth(0, 150)
+        self.resultsTable.setColumnWidth(5, 150)
+        self.resultsTable.setHorizontalHeaderLabels(("", "VLF", "LF", "HF", "", "", ""))
+        self.resultsTable.setVerticalHeaderLabels(("", "", "", "", "", ""))
+
+        self.resultsTable.setItem(0, 0, QTableWidgetItem("Gain"))
+        self.resultsTable.setItem(1, 0, QTableWidgetItem("Gain norm"))
+        self.resultsTable.setItem(2, 0, QTableWidgetItem(u"|Coh|\u00B2"))
+        self.resultsTable.setItem(3, 0, QTableWidgetItem(u"Phase (deg)"))
+        self.resultsTable.setItem(4, 0, QTableWidgetItem(u"Power ABP (ms\u00B2)"))
+        self.resultsTable.setItem(5, 0, QTableWidgetItem(u"Power CBFV (ms\u00B2)"))
+
+        self.resultsTable.setItem(0, 5, QTableWidgetItem("Avg. ABP (mmHg)"))
+        self.resultsTable.setItem(1, 5, QTableWidgetItem("Avg. CBFV (cm/s)"))
+        self.resultsTable.setItem(2, 5, QTableWidgetItem("Std. ABP (mmHg)"))
+        self.resultsTable.setItem(3, 5, QTableWidgetItem("Std. CBFV (cm/s)"))
+        self.resultsTable.setItem(4, 5, QTableWidgetItem("# Windows"))
+
+    def _set_empty_table(self):
+        for i in range(1, 4):
+            for j in range(6):
+                self.resultsTable.setItem(j, i, QTableWidgetItem("-"))
+
+        self.resultsTable.setItem(0, 6, QTableWidgetItem("-"))
+        self.resultsTable.setItem(1, 6, QTableWidgetItem("-"))
+        self.resultsTable.setItem(2, 6, QTableWidgetItem("-"))
+        self.resultsTable.setItem(3, 6, QTableWidgetItem("-"))
+        self.resultsTable.setItem(4, 6, QTableWidgetItem("-"))
+
+    def _fill_table_results(self, results):
+        # Gain
+        self.resultsTable.setItem(0, 1, QTableWidgetItem(f"{results['gain_vlf']:.2f}"))
+        self.resultsTable.setItem(0, 2, QTableWidgetItem(f"{results['gain_lf']:.2f}"))
+        self.resultsTable.setItem(0, 3, QTableWidgetItem(f"{results['gain_hf']:.2f}"))
+
+        # Gain norm
+        self.resultsTable.setItem(1, 1, QTableWidgetItem(f"{results['gain_vlf_norm']:.2f}"))
+        self.resultsTable.setItem(1, 2, QTableWidgetItem(f"{results['gain_lf_norm']:.2f}"))
+        self.resultsTable.setItem(1, 3, QTableWidgetItem(f"{results['gain_hf_norm']:.2f}"))
+
+        # Coherence (|Coh|^2)
+        self.resultsTable.setItem(2, 1, QTableWidgetItem(f"{results['coherence_vlf']:.2f}"))
+        self.resultsTable.setItem(2, 2, QTableWidgetItem(f"{results['coherence_lf']:.2f}"))
+        self.resultsTable.setItem(2, 3, QTableWidgetItem(f"{results['coherence_hf']:.2f}"))
+
+        # Phase
+        self.resultsTable.setItem(3, 1, QTableWidgetItem(f"{results['phase_vlf']:.2f}"))
+        self.resultsTable.setItem(3, 2, QTableWidgetItem(f"{results['phase_lf']:.2f}"))
+        self.resultsTable.setItem(3, 3, QTableWidgetItem(f"{results['phase_hf']:.2f}"))
+
+        # Power ABP
+        self.resultsTable.setItem(4, 1, QTableWidgetItem(f"{results['pxx_vlf']:.2f}"))
+        self.resultsTable.setItem(4, 2, QTableWidgetItem(f"{results['pxx_lf']:.2f}"))
+        self.resultsTable.setItem(4, 3, QTableWidgetItem(f"{results['pxx_hf']:.2f}"))
+
+        # Power CBFV
+        self.resultsTable.setItem(5, 1, QTableWidgetItem(f"{results['pyy_vlf']:.2f}"))
+        self.resultsTable.setItem(5, 2, QTableWidgetItem(f"{results['pyy_lf']:.2f}"))
+        self.resultsTable.setItem(5, 3, QTableWidgetItem(f"{results['pyy_hf']:.2f}"))
+
+        # Descriptive results
+        self.resultsTable.setItem(0, 6, QTableWidgetItem(f"{results['avg_abp']:.2f}"))
+        self.resultsTable.setItem(1, 6, QTableWidgetItem(f"{results['avg_cbfv']:.2f}"))
+        self.resultsTable.setItem(2, 6, QTableWidgetItem(f"{results['std_abp']:.2f}"))
+        self.resultsTable.setItem(3, 6, QTableWidgetItem(f"{results['std_cbfv']:.2f}"))
+        self.resultsTable.setItem(4, 6, QTableWidgetItem(f"{int(results['n_windows'])}"))
 
     @property
     def duration(self):
@@ -103,6 +177,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # TODO: get config from panel
             fs = 10.0
             self.results = tfa(self.abp, self.cbfv, fs)
+            self._fill_table_results(self.results)
 
     def change_top_axes(self):
         p_plot_abp_cbfv = partial(self.plot_abp_cbfv, name="top")
