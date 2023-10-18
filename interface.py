@@ -38,66 +38,6 @@ class Ui_MainWindow(object):
         self.gridLayout_3 = QGridLayout(self.centralwidget)
         self.gridLayout_3.setObjectName(u"gridLayout_3")
         self.gridLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.frame_2 = QFrame(self.centralwidget)
-        self.frame_2.setObjectName(u"frame_2")
-        self.frame_2.setFrameShape(QFrame.StyledPanel)
-        self.frame_2.setFrameShadow(QFrame.Raised)
-        self.verticalLayout = QVBoxLayout(self.frame_2)
-        self.verticalLayout.setSpacing(0)
-        self.verticalLayout.setObjectName(u"verticalLayout")
-        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.frame_3 = QFrame(self.frame_2)
-        self.frame_3.setObjectName(u"frame_3")
-        self.frame_3.setFrameShape(QFrame.StyledPanel)
-        self.frame_3.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_5 = QVBoxLayout(self.frame_3)
-        self.verticalLayout_5.setSpacing(0)
-        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
-        self.top_axes = PlotWidget(self.frame_3)
-        self.top_axes.setObjectName(u"top_axes")
-
-        self.verticalLayout_5.addWidget(self.top_axes)
-
-
-        self.verticalLayout.addWidget(self.frame_3)
-
-        self.frame_4 = QFrame(self.frame_2)
-        self.frame_4.setObjectName(u"frame_4")
-        self.frame_4.setFrameShape(QFrame.StyledPanel)
-        self.frame_4.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_4 = QVBoxLayout(self.frame_4)
-        self.verticalLayout_4.setSpacing(0)
-        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
-        self.bottom_axes = PlotWidget(self.frame_4)
-        self.bottom_axes.setObjectName(u"bottom_axes")
-
-        self.verticalLayout_4.addWidget(self.bottom_axes)
-
-
-        self.verticalLayout.addWidget(self.frame_4)
-
-        self.frame_5 = QFrame(self.frame_2)
-        self.frame_5.setObjectName(u"frame_5")
-        self.frame_5.setMinimumSize(QSize(0, 150))
-        self.frame_5.setMaximumSize(QSize(16777215, 200))
-        self.frame_5.setFrameShape(QFrame.StyledPanel)
-        self.frame_5.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_3 = QVBoxLayout(self.frame_5)
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.resultsTable = QTableWidget(self.frame_5)
-        self.resultsTable.setObjectName(u"resultsTable")
-
-        self.verticalLayout_3.addWidget(self.resultsTable)
-
-
-        self.verticalLayout.addWidget(self.frame_5)
-
-
-        self.gridLayout_3.addWidget(self.frame_2, 0, 1, 1, 1)
-
         self.frame = QFrame(self.centralwidget)
         self.frame.setObjectName(u"frame")
         self.frame.setMinimumSize(QSize(350, 0))
@@ -147,13 +87,13 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.label_2, 0, 0, 1, 1)
 
-        self.comboBox = QComboBox(self.frame_7)
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.setObjectName(u"comboBox")
-        self.comboBox.setMinimumSize(QSize(116, 30))
+        self.interpMethodComboBox = QComboBox(self.frame_7)
+        self.interpMethodComboBox.addItem("")
+        self.interpMethodComboBox.addItem("")
+        self.interpMethodComboBox.setObjectName(u"interpMethodComboBox")
+        self.interpMethodComboBox.setMinimumSize(QSize(116, 30))
 
-        self.gridLayout.addWidget(self.comboBox, 0, 1, 1, 1)
+        self.gridLayout.addWidget(self.interpMethodComboBox, 0, 1, 1, 1)
 
         self.label_3 = QLabel(self.frame_7)
         self.label_3.setObjectName(u"label_3")
@@ -163,13 +103,13 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.label_3, 1, 0, 1, 1)
 
-        self.lineEdit_3 = QLineEdit(self.frame_7)
-        self.lineEdit_3.setObjectName(u"lineEdit_3")
-        self.lineEdit_3.setMaximumSize(QSize(40, 30))
-        self.lineEdit_3.setLayoutDirection(Qt.LeftToRight)
-        self.lineEdit_3.setAlignment(Qt.AlignCenter)
+        self.resamplingFrequency = QLineEdit(self.frame_7)
+        self.resamplingFrequency.setObjectName(u"resamplingFrequency")
+        self.resamplingFrequency.setMaximumSize(QSize(40, 30))
+        self.resamplingFrequency.setLayoutDirection(Qt.LeftToRight)
+        self.resamplingFrequency.setAlignment(Qt.AlignCenter)
 
-        self.gridLayout.addWidget(self.lineEdit_3, 1, 1, 1, 1)
+        self.gridLayout.addWidget(self.resamplingFrequency, 1, 1, 1, 1)
 
         self.label_11 = QLabel(self.frame_7)
         self.label_11.setObjectName(u"label_11")
@@ -177,14 +117,14 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.label_11, 2, 0, 1, 1)
 
-        self.lineEdit_5 = QLineEdit(self.frame_7)
-        self.lineEdit_5.setObjectName(u"lineEdit_5")
-        self.lineEdit_5.setMinimumSize(QSize(61, 0))
-        self.lineEdit_5.setMaximumSize(QSize(40, 30))
-        self.lineEdit_5.setLayoutDirection(Qt.LeftToRight)
-        self.lineEdit_5.setAlignment(Qt.AlignCenter)
+        self.segmentSize = QLineEdit(self.frame_7)
+        self.segmentSize.setObjectName(u"segmentSize")
+        self.segmentSize.setMinimumSize(QSize(61, 0))
+        self.segmentSize.setMaximumSize(QSize(40, 30))
+        self.segmentSize.setLayoutDirection(Qt.LeftToRight)
+        self.segmentSize.setAlignment(Qt.AlignCenter)
 
-        self.gridLayout.addWidget(self.lineEdit_5, 2, 1, 1, 1)
+        self.gridLayout.addWidget(self.segmentSize, 2, 1, 1, 1)
 
         self.label_20 = QLabel(self.frame_7)
         self.label_20.setObjectName(u"label_20")
@@ -192,14 +132,14 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.label_20, 3, 0, 1, 1)
 
-        self.lineEdit_6 = QLineEdit(self.frame_7)
-        self.lineEdit_6.setObjectName(u"lineEdit_6")
-        self.lineEdit_6.setMinimumSize(QSize(61, 0))
-        self.lineEdit_6.setMaximumSize(QSize(40, 30))
-        self.lineEdit_6.setLayoutDirection(Qt.LeftToRight)
-        self.lineEdit_6.setAlignment(Qt.AlignCenter)
+        self.overlapSize = QLineEdit(self.frame_7)
+        self.overlapSize.setObjectName(u"overlapSize")
+        self.overlapSize.setMinimumSize(QSize(61, 0))
+        self.overlapSize.setMaximumSize(QSize(40, 30))
+        self.overlapSize.setLayoutDirection(Qt.LeftToRight)
+        self.overlapSize.setAlignment(Qt.AlignCenter)
 
-        self.gridLayout.addWidget(self.lineEdit_6, 3, 1, 1, 1)
+        self.gridLayout.addWidget(self.overlapSize, 3, 1, 1, 1)
 
         self.label_4 = QLabel(self.frame_7)
         self.label_4.setObjectName(u"label_4")
@@ -209,12 +149,12 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.label_4, 4, 0, 1, 1)
 
-        self.lineEdit_4 = QLineEdit(self.frame_7)
-        self.lineEdit_4.setObjectName(u"lineEdit_4")
-        self.lineEdit_4.setMaximumSize(QSize(40, 30))
-        self.lineEdit_4.setAlignment(Qt.AlignCenter)
+        self.zeroPadding = QLineEdit(self.frame_7)
+        self.zeroPadding.setObjectName(u"zeroPadding")
+        self.zeroPadding.setMaximumSize(QSize(40, 30))
+        self.zeroPadding.setAlignment(Qt.AlignCenter)
 
-        self.gridLayout.addWidget(self.lineEdit_4, 4, 1, 1, 1)
+        self.gridLayout.addWidget(self.zeroPadding, 4, 1, 1, 1)
 
         self.label_5 = QLabel(self.frame_7)
         self.label_5.setObjectName(u"label_5")
@@ -223,15 +163,15 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.label_5, 5, 0, 1, 1)
 
-        self.comboBox_2 = QComboBox(self.frame_7)
-        self.comboBox_2.addItem("")
-        self.comboBox_2.addItem("")
-        self.comboBox_2.addItem("")
-        self.comboBox_2.addItem("")
-        self.comboBox_2.setObjectName(u"comboBox_2")
-        self.comboBox_2.setMinimumSize(QSize(116, 30))
+        self.windowComboBox = QComboBox(self.frame_7)
+        self.windowComboBox.addItem("")
+        self.windowComboBox.addItem("")
+        self.windowComboBox.addItem("")
+        self.windowComboBox.addItem("")
+        self.windowComboBox.setObjectName(u"windowComboBox")
+        self.windowComboBox.setMinimumSize(QSize(116, 30))
 
-        self.gridLayout.addWidget(self.comboBox_2, 5, 1, 1, 1)
+        self.gridLayout.addWidget(self.windowComboBox, 5, 1, 1, 1)
 
 
         self.gridLayout_5.addWidget(self.frame_7, 1, 0, 1, 1)
@@ -337,53 +277,6 @@ class Ui_MainWindow(object):
         self.lineEditHFUpper.raise_()
 
         self.gridLayout_5.addWidget(self.frame_8, 2, 0, 1, 1)
-
-        self.frame_10 = QFrame(self.frame)
-        self.frame_10.setObjectName(u"frame_10")
-        self.frame_10.setMinimumSize(QSize(0, 83))
-        self.frame_10.setFrameShape(QFrame.StyledPanel)
-        self.frame_10.setFrameShadow(QFrame.Raised)
-        self.formLayout = QFormLayout(self.frame_10)
-        self.formLayout.setObjectName(u"formLayout")
-        self.label_14 = QLabel(self.frame_10)
-        self.label_14.setObjectName(u"label_14")
-        self.label_14.setMinimumSize(QSize(180, 0))
-        self.label_14.setMaximumSize(QSize(170, 16777215))
-        self.label_14.setFont(font)
-
-        self.formLayout.setWidget(0, QFormLayout.LabelRole, self.label_14)
-
-        self.lineEdit_11 = QLineEdit(self.frame_10)
-        self.lineEdit_11.setObjectName(u"lineEdit_11")
-        self.lineEdit_11.setMaximumSize(QSize(40, 30))
-        self.lineEdit_11.setAlignment(Qt.AlignCenter)
-
-        self.formLayout.setWidget(0, QFormLayout.FieldRole, self.lineEdit_11)
-
-        self.label_15 = QLabel(self.frame_10)
-        self.label_15.setObjectName(u"label_15")
-        self.label_15.setMaximumSize(QSize(16777215, 120))
-        self.label_15.setFont(font)
-        self.label_15.setStyleSheet(u"#label_15{\n"
-"	margin-top:10px\n"
-"}")
-
-        self.formLayout.setWidget(1, QFormLayout.LabelRole, self.label_15)
-
-        self.radioButtonApplyCoherence = QRadioButton(self.frame_10)
-        self.radioButtonApplyCoherence.setObjectName(u"radioButtonApplyCoherence")
-        self.radioButtonApplyCoherence.setMaximumSize(QSize(40, 16777215))
-        self.radioButtonApplyCoherence.setStyleSheet(u"#radioButtonApplyCoherence {\n"
-"	margin-top: 15px;\n"
-"   padding-left:12px;\n"
-"  margin-bottom:2px;\n"
-"}")
-        self.radioButtonApplyCoherence.setChecked(True)
-
-        self.formLayout.setWidget(1, QFormLayout.FieldRole, self.radioButtonApplyCoherence)
-
-
-        self.gridLayout_5.addWidget(self.frame_10, 3, 0, 1, 1)
 
         self.frame_11 = QFrame(self.frame)
         self.frame_11.setObjectName(u"frame_11")
@@ -500,8 +393,115 @@ class Ui_MainWindow(object):
 
         self.gridLayout_5.addWidget(self.frame_9, 6, 0, 1, 1)
 
+        self.frame_10 = QFrame(self.frame)
+        self.frame_10.setObjectName(u"frame_10")
+        self.frame_10.setMinimumSize(QSize(0, 83))
+        self.frame_10.setFrameShape(QFrame.StyledPanel)
+        self.frame_10.setFrameShadow(QFrame.Raised)
+        self.formLayout = QFormLayout(self.frame_10)
+        self.formLayout.setObjectName(u"formLayout")
+        self.label_14 = QLabel(self.frame_10)
+        self.label_14.setObjectName(u"label_14")
+        self.label_14.setMinimumSize(QSize(180, 0))
+        self.label_14.setMaximumSize(QSize(170, 16777215))
+        self.label_14.setFont(font)
+
+        self.formLayout.setWidget(0, QFormLayout.LabelRole, self.label_14)
+
+        self.coherenceThreshold = QLineEdit(self.frame_10)
+        self.coherenceThreshold.setObjectName(u"coherenceThreshold")
+        self.coherenceThreshold.setMaximumSize(QSize(40, 30))
+        self.coherenceThreshold.setAlignment(Qt.AlignCenter)
+
+        self.formLayout.setWidget(0, QFormLayout.FieldRole, self.coherenceThreshold)
+
+        self.label_15 = QLabel(self.frame_10)
+        self.label_15.setObjectName(u"label_15")
+        self.label_15.setMaximumSize(QSize(16777215, 120))
+        self.label_15.setFont(font)
+        self.label_15.setStyleSheet(u"#label_15{\n"
+"	margin-top:10px\n"
+"}")
+
+        self.formLayout.setWidget(1, QFormLayout.LabelRole, self.label_15)
+
+        self.radioButtonApplyCoherence = QRadioButton(self.frame_10)
+        self.radioButtonApplyCoherence.setObjectName(u"radioButtonApplyCoherence")
+        self.radioButtonApplyCoherence.setMaximumSize(QSize(40, 16777215))
+        self.radioButtonApplyCoherence.setStyleSheet(u"#radioButtonApplyCoherence {\n"
+"	margin-top: 15px;\n"
+"   padding-left:12px;\n"
+"  margin-bottom:2px;\n"
+"}")
+        self.radioButtonApplyCoherence.setChecked(True)
+
+        self.formLayout.setWidget(1, QFormLayout.FieldRole, self.radioButtonApplyCoherence)
+
+
+        self.gridLayout_5.addWidget(self.frame_10, 3, 0, 1, 1)
+
 
         self.gridLayout_3.addWidget(self.frame, 0, 0, 1, 1)
+
+        self.frame_2 = QFrame(self.centralwidget)
+        self.frame_2.setObjectName(u"frame_2")
+        self.frame_2.setFrameShape(QFrame.StyledPanel)
+        self.frame_2.setFrameShadow(QFrame.Raised)
+        self.verticalLayout = QVBoxLayout(self.frame_2)
+        self.verticalLayout.setSpacing(0)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.frame_3 = QFrame(self.frame_2)
+        self.frame_3.setObjectName(u"frame_3")
+        self.frame_3.setFrameShape(QFrame.StyledPanel)
+        self.frame_3.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_5 = QVBoxLayout(self.frame_3)
+        self.verticalLayout_5.setSpacing(0)
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.top_axes = PlotWidget(self.frame_3)
+        self.top_axes.setObjectName(u"top_axes")
+
+        self.verticalLayout_5.addWidget(self.top_axes)
+
+
+        self.verticalLayout.addWidget(self.frame_3)
+
+        self.frame_4 = QFrame(self.frame_2)
+        self.frame_4.setObjectName(u"frame_4")
+        self.frame_4.setFrameShape(QFrame.StyledPanel)
+        self.frame_4.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_4 = QVBoxLayout(self.frame_4)
+        self.verticalLayout_4.setSpacing(0)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.bottom_axes = PlotWidget(self.frame_4)
+        self.bottom_axes.setObjectName(u"bottom_axes")
+
+        self.verticalLayout_4.addWidget(self.bottom_axes)
+
+
+        self.verticalLayout.addWidget(self.frame_4)
+
+        self.frame_5 = QFrame(self.frame_2)
+        self.frame_5.setObjectName(u"frame_5")
+        self.frame_5.setMinimumSize(QSize(0, 150))
+        self.frame_5.setMaximumSize(QSize(16777215, 200))
+        self.frame_5.setFrameShape(QFrame.StyledPanel)
+        self.frame_5.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_3 = QVBoxLayout(self.frame_5)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.resultsTable = QTableWidget(self.frame_5)
+        self.resultsTable.setObjectName(u"resultsTable")
+
+        self.verticalLayout_3.addWidget(self.resultsTable)
+
+
+        self.verticalLayout.addWidget(self.frame_5)
+
+
+        self.gridLayout_3.addWidget(self.frame_2, 0, 1, 1, 1)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
@@ -524,26 +524,26 @@ class Ui_MainWindow(object):
         self.menu_file_open_action.setText(QCoreApplication.translate("MainWindow", u"Open", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Filename:", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Interp. Method:", None))
-        self.comboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"Linear", None))
-        self.comboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"Cubic spline", None))
+        self.interpMethodComboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"Linear", None))
+        self.interpMethodComboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"Cubic spline", None))
 
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Resampling Frequency:", None))
-        self.lineEdit_3.setInputMask(QCoreApplication.translate("MainWindow", u"00", None))
-        self.lineEdit_3.setText(QCoreApplication.translate("MainWindow", u"4", None))
+        self.resamplingFrequency.setInputMask(QCoreApplication.translate("MainWindow", u"00", None))
+        self.resamplingFrequency.setText(QCoreApplication.translate("MainWindow", u"10", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"Segment Size:", None))
-        self.lineEdit_5.setInputMask("")
-        self.lineEdit_5.setText(QCoreApplication.translate("MainWindow", u"1024", None))
+        self.segmentSize.setInputMask("")
+        self.segmentSize.setText(QCoreApplication.translate("MainWindow", u"1024", None))
         self.label_20.setText(QCoreApplication.translate("MainWindow", u"Overlap Size:", None))
-        self.lineEdit_6.setInputMask("")
-        self.lineEdit_6.setText(QCoreApplication.translate("MainWindow", u"512", None))
+        self.overlapSize.setInputMask("")
+        self.overlapSize.setText(QCoreApplication.translate("MainWindow", u"512", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"Zero Padding::", None))
-        self.lineEdit_4.setInputMask(QCoreApplication.translate("MainWindow", u"000", None))
-        self.lineEdit_4.setText(QCoreApplication.translate("MainWindow", u"0", None))
+        self.zeroPadding.setInputMask(QCoreApplication.translate("MainWindow", u"000", None))
+        self.zeroPadding.setText(QCoreApplication.translate("MainWindow", u"0", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Window:", None))
-        self.comboBox_2.setItemText(0, QCoreApplication.translate("MainWindow", u"Hanning", None))
-        self.comboBox_2.setItemText(1, QCoreApplication.translate("MainWindow", u"Hamming", None))
-        self.comboBox_2.setItemText(2, QCoreApplication.translate("MainWindow", u"Rectangular", None))
-        self.comboBox_2.setItemText(3, QCoreApplication.translate("MainWindow", u"-", None))
+        self.windowComboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"Hanning", None))
+        self.windowComboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"Hamming", None))
+        self.windowComboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"Rectangular", None))
+        self.windowComboBox.setItemText(3, QCoreApplication.translate("MainWindow", u"-", None))
 
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"-", None))
         self.lineEditLFLower.setInputMask(QCoreApplication.translate("MainWindow", u"0.00", None))
@@ -563,11 +563,6 @@ class Ui_MainWindow(object):
         self.lineEditLFUpper.setInputMask(QCoreApplication.translate("MainWindow", u"0.00", None))
         self.lineEditLFUpper.setText(QCoreApplication.translate("MainWindow", u"0.2", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>HF <span style=\" vertical-align:sub;\">(Hz)</span></p></body></html>", None))
-        self.label_14.setText(QCoreApplication.translate("MainWindow", u"Coherence Threshold:", None))
-        self.lineEdit_11.setInputMask(QCoreApplication.translate("MainWindow", u"0.00", None))
-        self.lineEdit_11.setText(QCoreApplication.translate("MainWindow", u"0.5", None))
-        self.label_15.setText(QCoreApplication.translate("MainWindow", u"Apply threshold:", None))
-        self.radioButtonApplyCoherence.setText("")
         self.bottomAxesComboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"ABP - Signal", None))
         self.bottomAxesComboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"ABP - PSD", None))
         self.bottomAxesComboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"Gain", None))
@@ -590,6 +585,11 @@ class Ui_MainWindow(object):
 
         self.label_19.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">Time </span><span style=\" font-weight:700; vertical-align:sub;\">(s)</span><span style=\" font-weight:700;\">:</span></p></body></html>", None))
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"Ready", None))
+        self.label_14.setText(QCoreApplication.translate("MainWindow", u"Coherence Threshold:", None))
+        self.coherenceThreshold.setInputMask(QCoreApplication.translate("MainWindow", u"0.00", None))
+        self.coherenceThreshold.setText(QCoreApplication.translate("MainWindow", u"0.5", None))
+        self.label_15.setText(QCoreApplication.translate("MainWindow", u"Apply threshold:", None))
+        self.radioButtonApplyCoherence.setText("")
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
     # retranslateUi
 

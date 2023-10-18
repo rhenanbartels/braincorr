@@ -136,7 +136,7 @@ def tfa(abp, cbfv, fs, options: dict = None):
         "nfft": 1024,
         "detrend": lambda x: x - numpy.mean(x),
         "smooth_factor": 3,
-        "coherence_threshold": 0.0,
+        "coherence_threshold": None,
         "coherence_thresholds": coherence_thresholds,
         "apply_coherence_threshold": True,
         "remove_negative_phase": True,
@@ -182,7 +182,11 @@ def tfa(abp, cbfv, fs, options: dict = None):
     gain = pxy / pxx
     coherence = pxy / (numpy.sqrt(pxx * pyy))
 
-    coherence_threshold = coherence_thresholds.get(n_windows, options.get("coherence_threshold"))
+    if options.get("coherence_threshold") is not None:
+        coherence_threshold = options.get("coherence_threshold")
+    else:
+        coherence_threshold = coherence_thresholds.get(n_windows, options.get("coherence_threshold"))
+
     if options.get("apply_coherence_threshold"):
         gain[numpy.where(abs(coherence) ** 2 < coherence_threshold)[0]] = numpy.nan
 
@@ -227,3 +231,19 @@ def tfa(abp, cbfv, fs, options: dict = None):
     results["coherence_threshold"] = coherence_threshold
     results["frequency"] = frequency
     return results
+
+
+def linear_interp(time, signal, fs):
+    interp_time = _create_interp_time(time, fs)
+    return numpy.interp(interp_time, time, signal)
+
+
+def cubic_spline(time, signal, fs):
+    interp_time = _create_interp_time(time, fs)
+    cs = scipy.interpolate.CubicSpline(time, signal)
+    return cs(interp_time)
+
+
+def _create_interp_time(time, fs):
+    time_resolution = 1 / float(fs)
+    return numpy.arange(0, time[-1] + time_resolution, time_resolution)

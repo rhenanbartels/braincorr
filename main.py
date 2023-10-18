@@ -10,7 +10,7 @@ import numpy
 import scipy
 import pyqtgraph as pg
 
-from signal_processing import open_csv_file, open_data_frame, tfa
+from signal_processing import cubic_spline, linear_interp, open_csv_file, open_data_frame, tfa
 from interface import Ui_MainWindow
 
 
@@ -30,6 +30,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Combo boxes
         self.topAxesComboBox.currentIndexChanged.connect(self.change_top_axes)
         self.bottomAxesComboBox.currentIndexChanged.connect(self.change_bottom_axes)
+
+        # Analysis options
+        # comboboxes
+        self.interpMethodComboBox.currentIndexChanged.connect(self.analyze)
+        self.windowComboBox.currentIndexChanged.connect(self.analyze)
+        # textfields
+        self.resamplingFrequency.editingFinished.connect(self.analyze)
+        self.segmentSize.editingFinished.connect(self.analyze)
+        self.overlapSize.editingFinished.connect(self.analyze)
+        self.zeroPadding.editingFinished.connect(self.analyze)
+
+        self.lineEditVLFLower.editingFinished.connect(self.analyze)
+        self.lineEditVLFUpper.editingFinished.connect(self.analyze)
+        self.lineEditLFLower.editingFinished.connect(self.analyze)
+        self.lineEditLFUpper.editingFinished.connect(self.analyze)
+        self.lineEditHFLower.editingFinished.connect(self.analyze)
+        self.lineEditHFUpper.editingFinished.connect(self.analyze)
+
+        self.coherenceThreshold.editingFinished.connect(self.analyze)
+        self.radioButtonApplyCoherence.toggled.connect(self.analyze)
 
         # Init last opened directory
         self.last_dir = "."
@@ -157,6 +177,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             return self._roi_region
 
+    @property
+    def analysis_options(self):
+        interp_methods = {
+            0: linear_interp,
+            1: cubic_spline,
+        }
+        windows = {
+            0: scipy.signal.windows.hann,
+            1: scipy.signal.windows.hamming,
+            2: scipy.signal.windows.boxcar,
+        }
+        return {
+            "interp_method": interp_methods[self.interpMethodComboBox.currentIndex()],
+            "resampling_frequency": int(self.resamplingFrequency.text()),
+            "segment_size": int(self.segmentSize.text()),
+            "overlap_size": int(self.overlapSize.text()),
+            "zero_padding": int(self.zeroPadding.text()),
+            "window": windows[self.windowComboBox.currentIndex()],
+            "coherence_threshold": float(self.coherenceThreshold.text()),
+        }
+
     def _save_last_dir(self, file_name):
         self.last_dir = os.path.dirname(file_name)
 
@@ -181,15 +222,32 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.time, self.abp, self.cbfv = open_data_frame(self.file_path)
             self._set_file_name(self.file_path)
 
+            self._original_time = self.time.copy()
+            self._original_abp = self.abp.copy()
+            self._original_cbfv = self.cbfv.copy()
+
             self.plot_cbfv(self.top_axes)
             self.plot_abp(self.bottom_axes)
             self._update_edit_time_ranges(region=(0, self.duration))
 
             # Signal Processing
-            # TODO: get config from panel
-            fs = 10.0
-            self.results = tfa(self.abp, self.cbfv, fs)
-            self._fill_table_results(self.results)
+            self.analyze()
+
+    def analyze(self):
+        fs = self.analysis_options["resampling_frequency"]
+        interp_abp = self.analysis_options["interp_method"](self.time, self.abp, fs)
+        interp_cbfv = self.analysis_options["interp_method"](self.time, self.cbfv, fs)
+        options = {
+            "vlf": self.vlf_range,
+            "lf": self.lf_range,
+            "hf": self.hf_range,
+            "segment_size": self.analysis_options["segment_size"],
+            "overlap": self.analysis_options["overlap_size"],
+            "coherence_threshold": self.analysis_options["coherence_threshold"],
+            "apply_coherence_threshold": self.radioButtonApplyCoherence.isChecked(),
+        }
+        self.results = tfa(interp_abp, interp_cbfv, fs, options=options)
+        self._fill_table_results(self.results)
 
     def change_top_axes(self):
         p_plot_abp_cbfv = partial(self.plot_abp_cbfv, name="top")
