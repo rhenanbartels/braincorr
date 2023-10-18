@@ -16,11 +16,11 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QComboBox, QFormLayout, QFrame,
-    QGridLayout, QHBoxLayout, QHeaderView, QLabel,
-    QLineEdit, QMainWindow, QMenu, QMenuBar,
-    QRadioButton, QSizePolicy, QSpacerItem, QTableWidget,
-    QTableWidgetItem, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QGridLayout,
+    QHBoxLayout, QHeaderView, QLabel, QLineEdit,
+    QMainWindow, QMenu, QMenuBar, QRadioButton,
+    QSizePolicy, QSpacerItem, QTableWidget, QTableWidgetItem,
+    QVBoxLayout, QWidget)
 
 from pyqtgraph import PlotWidget
 
@@ -46,32 +46,6 @@ class Ui_MainWindow(object):
         self.frame.setFrameShadow(QFrame.Raised)
         self.gridLayout_5 = QGridLayout(self.frame)
         self.gridLayout_5.setObjectName(u"gridLayout_5")
-        self.frame_6 = QFrame(self.frame)
-        self.frame_6.setObjectName(u"frame_6")
-        self.frame_6.setMaximumSize(QSize(16777215, 60))
-        self.frame_6.setFrameShape(QFrame.StyledPanel)
-        self.frame_6.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_2 = QHBoxLayout(self.frame_6)
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.label = QLabel(self.frame_6)
-        self.label.setObjectName(u"label")
-        font = QFont()
-        font.setPointSize(12)
-        font.setBold(True)
-        self.label.setFont(font)
-
-        self.horizontalLayout_2.addWidget(self.label)
-
-        self.lineEditFileName = QLineEdit(self.frame_6)
-        self.lineEditFileName.setObjectName(u"lineEditFileName")
-        self.lineEditFileName.setEnabled(False)
-        self.lineEditFileName.setAlignment(Qt.AlignCenter)
-
-        self.horizontalLayout_2.addWidget(self.lineEditFileName)
-
-
-        self.gridLayout_5.addWidget(self.frame_6, 0, 0, 1, 1)
-
         self.frame_7 = QFrame(self.frame)
         self.frame_7.setObjectName(u"frame_7")
         self.frame_7.setMinimumSize(QSize(0, 230))
@@ -83,6 +57,9 @@ class Ui_MainWindow(object):
         self.label_2 = QLabel(self.frame_7)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setMaximumSize(QSize(16777215, 120))
+        font = QFont()
+        font.setPointSize(12)
+        font.setBold(True)
         self.label_2.setFont(font)
 
         self.gridLayout.addWidget(self.label_2, 0, 0, 1, 1)
@@ -175,6 +152,58 @@ class Ui_MainWindow(object):
 
 
         self.gridLayout_5.addWidget(self.frame_7, 1, 0, 1, 1)
+
+        self.frame_6 = QFrame(self.frame)
+        self.frame_6.setObjectName(u"frame_6")
+        self.frame_6.setMaximumSize(QSize(16777215, 60))
+        self.frame_6.setFrameShape(QFrame.StyledPanel)
+        self.frame_6.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_2 = QHBoxLayout(self.frame_6)
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.label = QLabel(self.frame_6)
+        self.label.setObjectName(u"label")
+        self.label.setFont(font)
+
+        self.horizontalLayout_2.addWidget(self.label)
+
+        self.lineEditFileName = QLineEdit(self.frame_6)
+        self.lineEditFileName.setObjectName(u"lineEditFileName")
+        self.lineEditFileName.setEnabled(False)
+        self.lineEditFileName.setAlignment(Qt.AlignCenter)
+
+        self.horizontalLayout_2.addWidget(self.lineEditFileName)
+
+
+        self.gridLayout_5.addWidget(self.frame_6, 0, 0, 1, 1)
+
+        self.frame_9 = QFrame(self.frame)
+        self.frame_9.setObjectName(u"frame_9")
+        self.frame_9.setMinimumSize(QSize(0, 40))
+        self.frame_9.setFrameShape(QFrame.StyledPanel)
+        self.frame_9.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_3 = QHBoxLayout(self.frame_9)
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.statusEdit = QLineEdit(self.frame_9)
+        self.statusEdit.setObjectName(u"statusEdit")
+        self.statusEdit.setEnabled(False)
+        self.statusEdit.setMaximumSize(QSize(14, 14))
+        self.statusEdit.setStyleSheet(u"#statusEdit {\n"
+"	background-color: rgb(0,255,0); \n"
+"	color: rgb(0,255,0);\n"
+"	border-radius: 4px\n"
+"}")
+
+        self.horizontalLayout_3.addWidget(self.statusEdit)
+
+        self.label_13 = QLabel(self.frame_9)
+        self.label_13.setObjectName(u"label_13")
+        self.label_13.setMinimumSize(QSize(0, 14))
+        self.label_13.setMaximumSize(QSize(300, 15))
+
+        self.horizontalLayout_3.addWidget(self.label_13)
+
+
+        self.gridLayout_5.addWidget(self.frame_9, 6, 0, 1, 1)
 
         self.frame_8 = QFrame(self.frame)
         self.frame_8.setObjectName(u"frame_8")
@@ -278,6 +307,10 @@ class Ui_MainWindow(object):
 
         self.gridLayout_5.addWidget(self.frame_8, 2, 0, 1, 1)
 
+        self.verticalSpacer = QSpacerItem(20, 0, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.gridLayout_5.addItem(self.verticalSpacer, 5, 0, 1, 1)
+
         self.frame_11 = QFrame(self.frame)
         self.frame_11.setObjectName(u"frame_11")
         self.frame_11.setMinimumSize(QSize(0, 180))
@@ -360,70 +393,19 @@ class Ui_MainWindow(object):
 
         self.gridLayout_5.addWidget(self.frame_11, 4, 0, 1, 1)
 
-        self.verticalSpacer = QSpacerItem(20, 0, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.gridLayout_5.addItem(self.verticalSpacer, 5, 0, 1, 1)
-
-        self.frame_9 = QFrame(self.frame)
-        self.frame_9.setObjectName(u"frame_9")
-        self.frame_9.setMinimumSize(QSize(0, 40))
-        self.frame_9.setFrameShape(QFrame.StyledPanel)
-        self.frame_9.setFrameShadow(QFrame.Raised)
-        self.horizontalLayout_3 = QHBoxLayout(self.frame_9)
-        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.statusEdit = QLineEdit(self.frame_9)
-        self.statusEdit.setObjectName(u"statusEdit")
-        self.statusEdit.setEnabled(False)
-        self.statusEdit.setMaximumSize(QSize(14, 14))
-        self.statusEdit.setStyleSheet(u"#statusEdit {\n"
-"	background-color: rgb(0,255,0); \n"
-"	color: rgb(0,255,0);\n"
-"	border-radius: 4px\n"
-"}")
-
-        self.horizontalLayout_3.addWidget(self.statusEdit)
-
-        self.label_13 = QLabel(self.frame_9)
-        self.label_13.setObjectName(u"label_13")
-        self.label_13.setMinimumSize(QSize(0, 14))
-        self.label_13.setMaximumSize(QSize(300, 15))
-
-        self.horizontalLayout_3.addWidget(self.label_13)
-
-
-        self.gridLayout_5.addWidget(self.frame_9, 6, 0, 1, 1)
-
         self.frame_10 = QFrame(self.frame)
         self.frame_10.setObjectName(u"frame_10")
-        self.frame_10.setMinimumSize(QSize(0, 83))
+        self.frame_10.setMinimumSize(QSize(0, 140))
+        self.frame_10.setMaximumSize(QSize(16777215, 140))
         self.frame_10.setFrameShape(QFrame.StyledPanel)
         self.frame_10.setFrameShadow(QFrame.Raised)
-        self.formLayout = QFormLayout(self.frame_10)
-        self.formLayout.setObjectName(u"formLayout")
-        self.label_14 = QLabel(self.frame_10)
-        self.label_14.setObjectName(u"label_14")
-        self.label_14.setMinimumSize(QSize(180, 0))
-        self.label_14.setMaximumSize(QSize(170, 16777215))
-        self.label_14.setFont(font)
+        self.gridLayout_6 = QGridLayout(self.frame_10)
+        self.gridLayout_6.setObjectName(u"gridLayout_6")
+        self.label_21 = QLabel(self.frame_10)
+        self.label_21.setObjectName(u"label_21")
+        self.label_21.setFont(font)
 
-        self.formLayout.setWidget(0, QFormLayout.LabelRole, self.label_14)
-
-        self.coherenceThreshold = QLineEdit(self.frame_10)
-        self.coherenceThreshold.setObjectName(u"coherenceThreshold")
-        self.coherenceThreshold.setMaximumSize(QSize(40, 30))
-        self.coherenceThreshold.setAlignment(Qt.AlignCenter)
-
-        self.formLayout.setWidget(0, QFormLayout.FieldRole, self.coherenceThreshold)
-
-        self.label_15 = QLabel(self.frame_10)
-        self.label_15.setObjectName(u"label_15")
-        self.label_15.setMaximumSize(QSize(16777215, 120))
-        self.label_15.setFont(font)
-        self.label_15.setStyleSheet(u"#label_15{\n"
-"	margin-top:10px\n"
-"}")
-
-        self.formLayout.setWidget(1, QFormLayout.LabelRole, self.label_15)
+        self.gridLayout_6.addWidget(self.label_21, 1, 0, 1, 1)
 
         self.radioButtonApplyCoherence = QRadioButton(self.frame_10)
         self.radioButtonApplyCoherence.setObjectName(u"radioButtonApplyCoherence")
@@ -434,8 +416,49 @@ class Ui_MainWindow(object):
 "  margin-bottom:2px;\n"
 "}")
         self.radioButtonApplyCoherence.setChecked(True)
+        self.radioButtonApplyCoherence.setAutoExclusive(False)
 
-        self.formLayout.setWidget(1, QFormLayout.FieldRole, self.radioButtonApplyCoherence)
+        self.gridLayout_6.addWidget(self.radioButtonApplyCoherence, 2, 1, 1, 1)
+
+        self.coherenceThreshold = QLineEdit(self.frame_10)
+        self.coherenceThreshold.setObjectName(u"coherenceThreshold")
+        self.coherenceThreshold.setMinimumSize(QSize(40, 30))
+        self.coherenceThreshold.setMaximumSize(QSize(40, 30))
+        self.coherenceThreshold.setAlignment(Qt.AlignCenter)
+
+        self.gridLayout_6.addWidget(self.coherenceThreshold, 0, 1, 1, 1)
+
+        self.label_15 = QLabel(self.frame_10)
+        self.label_15.setObjectName(u"label_15")
+        self.label_15.setMaximumSize(QSize(16777215, 120))
+        self.label_15.setFont(font)
+        self.label_15.setStyleSheet(u"#label_15{\n"
+"	margin-top:10px\n"
+"}")
+
+        self.gridLayout_6.addWidget(self.label_15, 2, 0, 1, 1)
+
+        self.label_14 = QLabel(self.frame_10)
+        self.label_14.setObjectName(u"label_14")
+        self.label_14.setMinimumSize(QSize(180, 0))
+        self.label_14.setMaximumSize(QSize(170, 16777215))
+        self.label_14.setFont(font)
+
+        self.gridLayout_6.addWidget(self.label_14, 0, 0, 1, 1)
+
+        self.radioButtonSimulatedCoherence = QRadioButton(self.frame_10)
+        self.radioButtonSimulatedCoherence.setObjectName(u"radioButtonSimulatedCoherence")
+        self.radioButtonSimulatedCoherence.setMaximumSize(QSize(40, 16777215))
+        self.radioButtonSimulatedCoherence.setStyleSheet(u"#radioButtonSimulatedCoherence {\n"
+"	margin-top: 15px;\n"
+"   padding-left:12px;\n"
+"  margin-bottom:12px;\n"
+"}\n"
+"")
+        self.radioButtonSimulatedCoherence.setChecked(True)
+        self.radioButtonSimulatedCoherence.setAutoExclusive(False)
+
+        self.gridLayout_6.addWidget(self.radioButtonSimulatedCoherence, 1, 1, 1, 1)
 
 
         self.gridLayout_5.addWidget(self.frame_10, 3, 0, 1, 1)
@@ -522,7 +545,6 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.menu_file_open_action.setText(QCoreApplication.translate("MainWindow", u"Open", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"Filename:", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Interp. Method:", None))
         self.interpMethodComboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"Linear", None))
         self.interpMethodComboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"Cubic spline", None))
@@ -545,6 +567,8 @@ class Ui_MainWindow(object):
         self.windowComboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"Rectangular", None))
         self.windowComboBox.setItemText(3, QCoreApplication.translate("MainWindow", u"-", None))
 
+        self.label.setText(QCoreApplication.translate("MainWindow", u"Filename:", None))
+        self.label_13.setText(QCoreApplication.translate("MainWindow", u"Ready", None))
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"-", None))
         self.lineEditLFLower.setInputMask(QCoreApplication.translate("MainWindow", u"0.00", None))
         self.lineEditLFLower.setText(QCoreApplication.translate("MainWindow", u"0.07", None))
@@ -584,12 +608,13 @@ class Ui_MainWindow(object):
         self.topAxesComboBox.setItemText(5, QCoreApplication.translate("MainWindow", u"ABP x CBFV", None))
 
         self.label_19.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">Time </span><span style=\" font-weight:700; vertical-align:sub;\">(s)</span><span style=\" font-weight:700;\">:</span></p></body></html>", None))
-        self.label_13.setText(QCoreApplication.translate("MainWindow", u"Ready", None))
-        self.label_14.setText(QCoreApplication.translate("MainWindow", u"Coherence Threshold:", None))
+        self.label_21.setText(QCoreApplication.translate("MainWindow", u"Simulated Threshold:", None))
+        self.radioButtonApplyCoherence.setText("")
         self.coherenceThreshold.setInputMask(QCoreApplication.translate("MainWindow", u"0.00", None))
         self.coherenceThreshold.setText(QCoreApplication.translate("MainWindow", u"0.5", None))
         self.label_15.setText(QCoreApplication.translate("MainWindow", u"Apply threshold:", None))
-        self.radioButtonApplyCoherence.setText("")
+        self.label_14.setText(QCoreApplication.translate("MainWindow", u"Coherence Threshold:", None))
+        self.radioButtonSimulatedCoherence.setText("")
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
     # retranslateUi
 
