@@ -2,7 +2,8 @@ import os
 import sys
 from functools import partial
 
-from PySide6.QtCore import QCoreApplication
+from PySide6.QtCore import QCoreApplication, Qt
+from PySide6.QtGui import QBrush, QColor
 from PySide6.QtWidgets import QApplication, QFileDialog, QMainWindow, QTableWidgetItem
 
 import numpy
@@ -43,6 +44,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self._set_empty_table()
 
     def _init_results_table(self):
+        # Table style
+        # brush = QBrush(QColor(255, 255, 255, 255))
+        # brush.setStyle(Qt.NoBrush)
+        # brush1 = QBrush(QColor(44, 44, 44, 255))
+        # brush1.setStyle(Qt.SolidPattern)
+        # __qtablewidgetitem10 = QTableWidgetItem()
+        # __qtablewidgetitem10.setBackground(brush1)
+        # __qtablewidgetitem10.setForeground(brush)
+        # self.resultsTable.setItem(0, 0, __qtablewidgetitem10)
+
+        # Table data
         self.resultsTable.setRowCount(6)
         self.resultsTable.setColumnCount(7)
         self.resultsTable.setColumnWidth(0, 150)
