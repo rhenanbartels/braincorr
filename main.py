@@ -50,6 +50,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.coherenceThreshold.editingFinished.connect(self.analyze)
         self.radioButtonApplyCoherence.toggled.connect(self.analyze)
+        self.radioButtonSimulatedCoherence.toggled.connect(self.analyze)
+        self.radioButtonSimulatedCoherence.toggled.connect(self._toggle_coherence_threshold)
+
+        # Init main variables
+        self.time = None
 
         # Init last opened directory
         self.last_dir = "."
@@ -144,6 +149,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.resultsTable.setItem(3, 6, QTableWidgetItem(f"{results['std_cbfv']:.2f}"))
         self.resultsTable.setItem(4, 6, QTableWidgetItem(f"{int(results['n_windows'])}"))
 
+    def _toggle_coherence_threshold(self):
+        self.coherenceThreshold.setEnabled(not self.radioButtonSimulatedCoherence.isChecked())
+
     @property
     def duration(self):
         if self.time is not None:
@@ -176,6 +184,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return [0, self.duration]
         else:
             return self._roi_region
+
+    @property
+    def coherence_threshold(self):
+        threshold = None
+        if not self.radioButtonSimulatedCoherence.isChecked():
+            threshold = self.analysis_options["coherence_threshold"]
+
+        return threshold
 
     @property
     def analysis_options(self):
@@ -234,6 +250,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.analyze()
 
     def analyze(self):
+        # Generalize this check
+        if self.time is None:
+            return
+
         fs = self.analysis_options["resampling_frequency"]
         interp_abp = self.analysis_options["interp_method"](self.time, self.abp, fs)
         interp_cbfv = self.analysis_options["interp_method"](self.time, self.cbfv, fs)
@@ -243,7 +263,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             "hf": self.hf_range,
             "segment_size": self.analysis_options["segment_size"],
             "overlap": self.analysis_options["overlap_size"],
-            "coherence_threshold": self.analysis_options["coherence_threshold"],
+            "coherence_threshold": self.coherence_threshold,
             "apply_coherence_threshold": self.radioButtonApplyCoherence.isChecked(),
         }
         self.results = tfa(interp_abp, interp_cbfv, fs, options=options)

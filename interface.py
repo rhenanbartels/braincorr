@@ -422,6 +422,7 @@ class Ui_MainWindow(object):
 
         self.coherenceThreshold = QLineEdit(self.frame_10)
         self.coherenceThreshold.setObjectName(u"coherenceThreshold")
+        self.coherenceThreshold.setEnabled(False)
         self.coherenceThreshold.setMinimumSize(QSize(40, 30))
         self.coherenceThreshold.setMaximumSize(QSize(40, 30))
         self.coherenceThreshold.setAlignment(Qt.AlignCenter)
