@@ -324,6 +324,7 @@ class Ui_MainWindow(object):
         self.bottomAxesComboBox.addItem("")
         self.bottomAxesComboBox.addItem("")
         self.bottomAxesComboBox.addItem("")
+        self.bottomAxesComboBox.addItem("")
         self.bottomAxesComboBox.setObjectName(u"bottomAxesComboBox")
         self.bottomAxesComboBox.setMinimumSize(QSize(200, 30))
         self.bottomAxesComboBox.setMaximumSize(QSize(16777215, 16777215))
@@ -593,6 +594,7 @@ class Ui_MainWindow(object):
         self.bottomAxesComboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"Gain", None))
         self.bottomAxesComboBox.setItemText(3, QCoreApplication.translate("MainWindow", u"Coherence", None))
         self.bottomAxesComboBox.setItemText(4, QCoreApplication.translate("MainWindow", u"Phase", None))
+        self.bottomAxesComboBox.setItemText(5, QCoreApplication.translate("MainWindow", u"ABP x CBFV", None))
 
         self.label_16.setText(QCoreApplication.translate("MainWindow", u"Top Axes:", None))
         self.lineEditStartTimeAxes.setInputMask(QCoreApplication.translate("MainWindow", u"00000.00", None))

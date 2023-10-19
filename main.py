@@ -420,32 +420,44 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         )
         self._add_frequency_bands_lines(axes)
 
-    def purge_multiple_axes(self):
+    def purge_multiple_axes(self, axes):
         # Do not delete twin plot if it is appearing in another axes
         top_has_twin = self.topAxesComboBox.currentIndex() == COMBO_TWIN_INDEX
         bottom_has_twin = self.bottomAxesComboBox.currentIndex() == COMBO_TWIN_INDEX
-        if hasattr(self, "top_twin_plot_item") and not top_has_twin:
-            self.top_extra_axis.hide()
-            self.top_twin_plot_item.clear()
-            self.top_twin_view_box.clear()
-            self.top_curve_item.clear()
-            self.top_twin_plot_item.legend.removeItem(self.top_curve_item)
-            delattr(self, "top_twin_plot_item")
-            delattr(self, "top_twin_view_box")
+        if hasattr(self, "top_twin_plot_item") and not top_has_twin or axes is self.top_axes:
+            try:
+                self.top_axes.clear()
+                self.top_extra_axis.hide()
+                self.top_twin_plot_item.clear()
+                self.top_twin_view_box.clear()
+                self.top_curve_item.clear()
+                self.top_twin_plot_item.legend.removeItem(self.top_curve_item)
+                delattr(self, "top_twin_plot_item")
+                delattr(self, "top_twin_view_box")
+            except Exception:
+                pass
 
-        if hasattr(self, "bottom_twin_plot_item") and not bottom_has_twin:
-            self.bottom_extra_axis.hide()
-            self.bottom_twin_plot_item.clear()
-            self.bottom_twin_view_box.clear()
-            self.bottom_twin_plot_item.legend.removeItem(self.bottom_curve_item)
-            delattr(self, "bottom_twin_plot_item")
-            delattr(self, "bottom_twin_view_box")
+        if (
+            hasattr(self, "bottom_twin_plot_item")
+            and not bottom_has_twin
+            or axes is self.bottom_axes
+        ):
+            try:
+                self.bottom_axes.clear()
+                self.bottom_extra_axis.hide()
+                self.bottom_twin_plot_item.clear()
+                self.bottom_twin_view_box.clear()
+                self.bottom_twin_plot_item.legend.removeItem(self.bottom_curve_item)
+                delattr(self, "bottom_twin_plot_item")
+                delattr(self, "bottom_twin_view_box")
+            except Exception:
+                pass
 
     # TODO: change name
     def plot_time_series(
         self, axes, time, signal, xlabel, ylabel, xlim, color, name=None, clear=True
     ):
-        self.purge_multiple_axes()
+        self.purge_multiple_axes(axes)
         if clear:
             axes.clear()
         axes.plot(time, signal, pen=pg.mkPen(color,  width=2), name=name)
@@ -455,6 +467,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         axes.setRange(xRange=xlim)
 
     def plot_abp_cbfv(self, axes, name):
+        self.purge_multiple_axes(axes)
         axes.clear()
         axes.addLegend()
 
@@ -527,7 +540,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self._add_frequency_line(axes, x=[self.hf_range[1], self.hf_range[1]], ylim=ylim)
 
     def plot_psd(self, axes, frequency, psd, vlf, lf, hf):
-        self.purge_multiple_axes()
+        self.purge_multiple_axes(axes)
 
         # For aesthetic purpose, we are interpolating and resampling the PSD
         # for increased visual frequency resolution
