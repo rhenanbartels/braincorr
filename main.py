@@ -269,6 +269,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.results = tfa(interp_abp, interp_cbfv, fs, options=options)
         self._fill_table_results(self.results)
 
+        # Update plots
+        self.change_top_axes()
+        self.change_bottom_axes()
+
     def change_top_axes(self):
         p_plot_abp_cbfv = partial(self.plot_abp_cbfv, name="top")
         if hasattr(self, "plot_item"):
@@ -571,7 +575,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             brush=(127, 127, 255, 200)
         )
 
-        axes.setRange(xRange=[0, 0.5])
+        axes.setRange(xRange=[0, self.hf_range[-1]])
         axes.setLabel("left", "PSD (ms²/Hz)")
         axes.setLabel("bottom", "Frequency (Hz)")
         axes.showGrid(x=True, y=True, alpha=1.0)
