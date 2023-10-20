@@ -14,6 +14,11 @@ from signal_processing import cubic_spline, linear_interp, open_csv_file, open_d
 from interface import Ui_MainWindow
 
 
+class CustomLinearRegionItem(pg.LinearRegionItem):
+    def lineMoveFinished(self):
+        pass
+
+
 COMBO_TWIN_INDEX = 5
 
 
@@ -53,8 +58,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.radioButtonSimulatedCoherence.toggled.connect(self.analyze)
         self.radioButtonSimulatedCoherence.toggled.connect(self._toggle_coherence_threshold)
 
+        self._restart_config_variables()
+
+    def _restart_config_variables(self):
         # Init main variables
         self.time = None
+        self.region_start = None
+        self.region_end = None
 
         # Init last opened directory
         self.last_dir = "."
@@ -233,6 +243,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             "CSV files (*.txt)"
         )
         if self.file_path:
+            self._restart_config_variables()
+
             self._save_last_dir(self.file_path)
             # self.time, self.cbv, self.abp = open_csv_file(self.file_name)
             self.time, self.abp, self.cbfv = open_data_frame(self.file_path)
@@ -245,6 +257,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.plot_cbfv(self.top_axes)
             self.plot_abp(self.bottom_axes)
             self._update_edit_time_ranges(region=(0, self.duration))
+
+            # Update signal region limit
+            self.region_start = 0
+            self.region_end = self.time[-1]
 
             # Signal Processing
             self.analyze()
@@ -301,18 +317,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             5: p_plot_abp_cbfv,
         }.get(self.bottomAxesComboBox.currentIndex(), lambda: None)(self.bottom_axes)
 
-    def update_top_roi(self):
+    def _keep_region_boundary(self, region):
         # Do not let area outside signal
-        region = self.top_roi.getRegion()
+        if region[0] < self.region_start:
+            region = (self.region_start, region[1])
+        if region[1] > self.region_end:
+            region = (region[0], self.region_end)
+
+        return region
+
+    def update_top_roi(self):
+        region = self._keep_region_boundary(self.top_roi.getRegion())
         self._roi_region = region
+
         if self.bottom_roi is not None:
             self.bottom_roi.setRegion(region)
 
         self._update_edit_time_ranges(region)
 
     def update_bottom_roi(self):
-        # Do not let area outside signal
-        region = self.bottom_roi.getRegion()
+        region = self._keep_region_boundary(self.bottom_roi.getRegion())
+        self._keep_region_boundary(region)
         self._roi_region = region
         if self.top_roi is not None:
             self.top_roi.setRegion(region)
@@ -320,7 +345,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self._update_edit_time_ranges(region)
 
     def add_roi(self, axes, action):
-        roi = pg.LinearRegionItem(self.roi_region, pen=pg.mkPen(width=3.5))
+        roi = CustomLinearRegionItem(self.roi_region, pen=pg.mkPen(width=3.5))
+
+        roi.lines[0].sigPositionChangeFinished.connect(self.analyze)
+        roi.lines[1].sigPositionChangeFinished.connect(self.analyze)
+        roi.sigRegionChangeFinished.connect(self.analyze)
+
         roi.setZValue(-10)
 
         # Callback when area change.
