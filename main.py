@@ -1,5 +1,6 @@
 import os
 import sys
+import traceback
 from functools import partial
 
 from PySide6.QtCore import QCoreApplication, Qt
@@ -38,24 +39,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # Analysis options
         # comboboxes
-        self.interpMethodComboBox.currentIndexChanged.connect(self.analyze)
-        self.windowComboBox.currentIndexChanged.connect(self.analyze)
+        self.interpMethodComboBox.currentIndexChanged.connect(self.safe_analyze)
+        self.windowComboBox.currentIndexChanged.connect(self.safe_analyze)
         # textfields
-        self.resamplingFrequency.editingFinished.connect(self.analyze)
-        self.segmentSize.editingFinished.connect(self.analyze)
-        self.overlapSize.editingFinished.connect(self.analyze)
-        self.zeroPadding.editingFinished.connect(self.analyze)
+        self.resamplingFrequency.editingFinished.connect(self.safe_analyze)
+        self.segmentSize.editingFinished.connect(self.safe_analyze)
+        self.overlapSize.editingFinished.connect(self.safe_analyze)
+        self.zeroPadding.editingFinished.connect(self.safe_analyze)
 
-        self.lineEditVLFLower.editingFinished.connect(self.analyze)
-        self.lineEditVLFUpper.editingFinished.connect(self.analyze)
-        self.lineEditLFLower.editingFinished.connect(self.analyze)
-        self.lineEditLFUpper.editingFinished.connect(self.analyze)
-        self.lineEditHFLower.editingFinished.connect(self.analyze)
-        self.lineEditHFUpper.editingFinished.connect(self.analyze)
+        self.lineEditVLFLower.editingFinished.connect(self.safe_analyze)
+        self.lineEditVLFUpper.editingFinished.connect(self.safe_analyze)
+        self.lineEditLFLower.editingFinished.connect(self.safe_analyze)
+        self.lineEditLFUpper.editingFinished.connect(self.safe_analyze)
+        self.lineEditHFLower.editingFinished.connect(self.safe_analyze)
+        self.lineEditHFUpper.editingFinished.connect(self.safe_analyze)
 
-        self.coherenceThreshold.editingFinished.connect(self.analyze)
-        self.radioButtonApplyCoherence.toggled.connect(self.analyze)
-        self.radioButtonSimulatedCoherence.toggled.connect(self.analyze)
+        self.coherenceThreshold.editingFinished.connect(self.safe_analyze)
+        self.radioButtonApplyCoherence.toggled.connect(self.safe_analyze)
+        self.radioButtonSimulatedCoherence.toggled.connect(self.safe_analyze)
         self.radioButtonSimulatedCoherence.toggled.connect(self._toggle_coherence_threshold)
 
         self._restart_config_variables()
@@ -222,7 +223,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             "zero_padding": int(self.zeroPadding.text()),
             "window": windows[self.windowComboBox.currentIndex()],
             "coherence_threshold": float(self.coherenceThreshold.text()),
+            "apply_coherence_threshold": self.radioButtonApplyCoherence.isChecked(),
         }
+
+    @property
+    def indexes_region(self):
+        return numpy.where(
+            numpy.logical_and(self.time >= self._roi_region[0], self.time <= self._roi_region[1])
+        )[0]
+
+    @property
+    def time_region(self):
+        return self.time[self.indexes_region]
+
+    @property
+    def abp_region(self):
+        return self.abp[self.indexes_region]
+
+    @property
+    def cbfv_region(self):
+        return self.cbfv[self.indexes_region]
 
     def _save_last_dir(self, file_name):
         self.last_dir = os.path.dirname(file_name)
@@ -261,9 +281,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # Update signal region limit
             self.region_start = 0
             self.region_end = self.time[-1]
+            self._roi_region = (self.region_start, self.region_end)
 
             # Signal Processing
-            self.analyze()
+            self.safe_analyze()
 
     def analyze(self):
         # Generalize this check
@@ -271,14 +292,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return
 
         fs = self.analysis_options["resampling_frequency"]
-        interp_abp = self.analysis_options["interp_method"](self.time, self.abp, fs)
-        interp_cbfv = self.analysis_options["interp_method"](self.time, self.cbfv, fs)
+        interp_abp = self.analysis_options["interp_method"](self.time_region, self.abp_region, fs)
+        interp_cbfv = self.analysis_options["interp_method"](self.time_region, self.cbfv_region, fs)
         options = {
             "vlf": self.vlf_range,
             "lf": self.lf_range,
             "hf": self.hf_range,
             "segment_size": self.analysis_options["segment_size"],
             "overlap": self.analysis_options["overlap_size"],
+            "nfft": self.analysis_options["segment_size"],  # TODO: allow use of zero padding
             "coherence_threshold": self.coherence_threshold,
             "apply_coherence_threshold": self.radioButtonApplyCoherence.isChecked(),
         }
@@ -288,6 +310,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Update plots
         self.change_top_axes()
         self.change_bottom_axes()
+
+    def safe_analyze(self):
+        try:
+            self.analyze()
+        except Exception:
+            # TODO: improve logging and save it files
+            msg = traceback.format_exc()
+            print(msg)
+            self._set_empty_table()
 
     def change_top_axes(self):
         p_plot_abp_cbfv = partial(self.plot_abp_cbfv, name="top")
@@ -347,9 +378,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def add_roi(self, axes, action):
         roi = CustomLinearRegionItem(self.roi_region, pen=pg.mkPen(width=3.5))
 
-        roi.lines[0].sigPositionChangeFinished.connect(self.analyze)
-        roi.lines[1].sigPositionChangeFinished.connect(self.analyze)
-        roi.sigRegionChangeFinished.connect(self.analyze)
+        roi.lines[0].sigPositionChangeFinished.connect(self.safe_analyze)
+        roi.lines[1].sigPositionChangeFinished.connect(self.safe_analyze)
+        roi.sigRegionChangeFinished.connect(self.safe_analyze)
 
         roi.setZValue(-10)
 
@@ -430,11 +461,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self._add_frequency_bands_lines(axes)
         # Add coherence threshold line
         threshold = self.results.get("coherence_threshold", None)
+        if self.results["coherence_threshold_applied"]:
+            pen_color = "r"
+        else:
+            pen_color = "grey"
+
+        if self.results["coherence_threshold"] is None:
+            threshold = 0.5
+            pen_color = "grey"
+
+        label = f"Threshold (={threshold:.2f})"
+
         axes.addLine(
             x=None,
             y=threshold,
-            pen=pg.mkPen("r", width=2),
-            label=f"Threshold (={self.results['coherence_threshold']:.2f})"
+            pen=pg.mkPen(pen_color, width=2),
+            label=label,
         )
 
     def plot_phase(self, axes):

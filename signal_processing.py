@@ -187,7 +187,14 @@ def tfa(abp, cbfv, fs, options: dict = None):
     else:
         coherence_threshold = coherence_thresholds.get(n_windows, options.get("coherence_threshold"))
 
-    if options.get("apply_coherence_threshold"):
+    # If manual threshold is disable and there is no simulated coherence value
+    # for a given n_widows
+    if coherence_threshold is None:
+        apply_coherence_threshold = False
+    else:
+        apply_coherence_threshold = options.get("apply_coherence_threshold")
+
+    if apply_coherence_threshold:
         gain[numpy.where(abs(coherence) ** 2 < coherence_threshold)[0]] = numpy.nan
 
     phase = numpy.angle(gain)
@@ -217,6 +224,7 @@ def tfa(abp, cbfv, fs, options: dict = None):
         results["gain_lf_norm"] = results["gain_lf"] / avg_cbfv * 100
         results["gain_hf_norm"] = results["gain_hf"] / avg_cbfv * 100
 
+    results["coherence_threshold_applied"] = apply_coherence_threshold
     results["n_windows"] = n_windows
     results["avg_abp"] = avg_abp
     results["avg_cbfv"] = avg_cbfv
@@ -246,4 +254,4 @@ def cubic_spline(time, signal, fs):
 
 def _create_interp_time(time, fs):
     time_resolution = 1 / float(fs)
-    return numpy.arange(0, time[-1] + time_resolution, time_resolution)
+    return numpy.arange(time[0], time[-1] + time_resolution, time_resolution)
