@@ -37,6 +37,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.topAxesComboBox.currentIndexChanged.connect(self.change_top_axes)
         self.bottomAxesComboBox.currentIndexChanged.connect(self.change_bottom_axes)
 
+        # ROI interval
+        self.lineEditStartTimeAxes.editingFinished.connect(self.update_roi_from_form)
+        self.lineEditEndTimeAxes.editingFinished.connect(self.update_roi_from_form)
+
         # Analysis options
         # comboboxes
         self.interpMethodComboBox.currentIndexChanged.connect(self.safe_analyze)
@@ -365,6 +369,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             4: self.plot_phase,
             5: p_plot_abp_cbfv,
         }.get(self.bottomAxesComboBox.currentIndex(), lambda: None)(self.bottom_axes)
+
+    def update_roi_from_form(self):
+        start = float(self.lineEditStartTimeAxes.text())
+        end = float(self.lineEditEndTimeAxes.text())
+        region = (start, end)
+
+        self.top_roi.setRegion(region)
+        self.bottom_roi.setRegion(region)
+        self.safe_analyze()
 
     def _keep_region_boundary(self, region):
         # Do not let area outside signal
