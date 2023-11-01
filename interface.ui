@@ -399,7 +399,7 @@
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <widget class="QLineEdit" name="statusEdit">
+           <widget class="QLineEdit" name="statusColor">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -410,7 +410,7 @@
              </size>
             </property>
             <property name="styleSheet">
-             <string notr="true">#statusEdit {
+             <string notr="true">#statusColor {
 	background-color: rgb(0,255,0); 
 	color: rgb(0,255,0);
 	border-radius: 4px
@@ -419,7 +419,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_13">
+           <widget class="QLabel" name="statusLabel">
             <property name="minimumSize">
              <size>
               <width>0</width>

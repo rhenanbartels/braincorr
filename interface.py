@@ -183,24 +183,24 @@ class Ui_MainWindow(object):
         self.frame_9.setFrameShadow(QFrame.Raised)
         self.horizontalLayout_3 = QHBoxLayout(self.frame_9)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.statusEdit = QLineEdit(self.frame_9)
-        self.statusEdit.setObjectName(u"statusEdit")
-        self.statusEdit.setEnabled(False)
-        self.statusEdit.setMaximumSize(QSize(14, 14))
-        self.statusEdit.setStyleSheet(u"#statusEdit {\n"
+        self.statusColor = QLineEdit(self.frame_9)
+        self.statusColor.setObjectName(u"statusColor")
+        self.statusColor.setEnabled(False)
+        self.statusColor.setMaximumSize(QSize(14, 14))
+        self.statusColor.setStyleSheet(u"#statusColor {\n"
 "	background-color: rgb(0,255,0); \n"
 "	color: rgb(0,255,0);\n"
 "	border-radius: 4px\n"
 "}")
 
-        self.horizontalLayout_3.addWidget(self.statusEdit)
+        self.horizontalLayout_3.addWidget(self.statusColor)
 
-        self.label_13 = QLabel(self.frame_9)
-        self.label_13.setObjectName(u"label_13")
-        self.label_13.setMinimumSize(QSize(0, 14))
-        self.label_13.setMaximumSize(QSize(300, 15))
+        self.statusLabel = QLabel(self.frame_9)
+        self.statusLabel.setObjectName(u"statusLabel")
+        self.statusLabel.setMinimumSize(QSize(0, 14))
+        self.statusLabel.setMaximumSize(QSize(300, 15))
 
-        self.horizontalLayout_3.addWidget(self.label_13)
+        self.horizontalLayout_3.addWidget(self.statusLabel)
 
 
         self.gridLayout_5.addWidget(self.frame_9, 6, 0, 1, 1)
@@ -570,7 +570,7 @@ class Ui_MainWindow(object):
         self.windowComboBox.setItemText(3, QCoreApplication.translate("MainWindow", u"-", None))
 
         self.label.setText(QCoreApplication.translate("MainWindow", u"Filename:", None))
-        self.label_13.setText(QCoreApplication.translate("MainWindow", u"Ready", None))
+        self.statusLabel.setText(QCoreApplication.translate("MainWindow", u"Ready", None))
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"-", None))
         self.lineEditLFLower.setInputMask(QCoreApplication.translate("MainWindow", u"0.00", None))
         self.lineEditLFLower.setText(QCoreApplication.translate("MainWindow", u"0.07", None))

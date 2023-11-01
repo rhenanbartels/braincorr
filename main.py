@@ -160,6 +160,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.resultsTable.setItem(3, 6, QTableWidgetItem(f"{results['std_cbfv']:.2f}"))
         self.resultsTable.setItem(4, 6, QTableWidgetItem(f"{int(results['n_windows'])}"))
 
+    def _update_info_status(self, status="success", msg=None):
+        green = (
+            "#statusColor {\n\tbackground-color: rgb(0,255,0); \n\tcolor: rgb(0,255,0);"
+            "\n\tborder-radius: 4px\n}"
+        )
+        red = (
+            "#statusColor {\n\tbackground-color: rgb(255,0,0); \n\tcolor: rgb(255,0,0);"
+            "\n\tborder-radius: 4px\n}"
+        )
+        if status == "error":
+            self.statusColor.setStyleSheet(red)
+            self.statusLabel.setText("Error")
+        elif status == "success":
+            self.statusColor.setStyleSheet(green)
+            self.statusLabel.setText("Ready")
+
     def _toggle_coherence_threshold(self):
         self.coherenceThreshold.setEnabled(not self.radioButtonSimulatedCoherence.isChecked())
 
@@ -314,11 +330,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def safe_analyze(self):
         try:
             self.analyze()
+            self._update_info_status(status="success")
         except Exception:
             # TODO: improve logging and save it files
             msg = traceback.format_exc()
             print(msg)
             self._set_empty_table()
+            self._update_info_status(status="error")
 
     def change_top_axes(self):
         p_plot_abp_cbfv = partial(self.plot_abp_cbfv, name="top")
