@@ -33,6 +33,9 @@ class Ui_MainWindow(object):
         MainWindow.setStyleSheet(u"")
         self.menu_file_open_action = QAction(MainWindow)
         self.menu_file_open_action.setObjectName(u"menu_file_open_action")
+        self.menu_save_results_action = QAction(MainWindow)
+        self.menu_save_results_action.setObjectName(u"menu_save_results_action")
+        self.menu_save_results_action.setEnabled(False)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout_3 = QGridLayout(self.centralwidget)
@@ -538,6 +541,7 @@ class Ui_MainWindow(object):
 
         self.menubar.addAction(self.menuFile.menuAction())
         self.menuFile.addAction(self.menu_file_open_action)
+        self.menuFile.addAction(self.menu_save_results_action)
 
         self.retranslateUi(MainWindow)
 
@@ -547,6 +551,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.menu_file_open_action.setText(QCoreApplication.translate("MainWindow", u"Open", None))
+        self.menu_save_results_action.setText(QCoreApplication.translate("MainWindow", u"Save Results", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Interp. Method:", None))
         self.interpMethodComboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"Linear", None))
         self.interpMethodComboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"Cubic spline", None))

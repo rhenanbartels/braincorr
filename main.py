@@ -2,6 +2,7 @@ import os
 import sys
 import traceback
 from functools import partial
+from pathlib import Path
 
 from PySide6.QtCore import QCoreApplication, Qt
 from PySide6.QtGui import QBrush, QColor
@@ -11,8 +12,9 @@ import numpy
 import scipy
 import pyqtgraph as pg
 
-from signal_processing import cubic_spline, linear_interp, open_csv_file, open_data_frame, tfa
+from export import export_as_csv
 from interface import Ui_MainWindow
+from signal_processing import cubic_spline, linear_interp, open_csv_file, open_data_frame, tfa
 
 
 class CustomLinearRegionItem(pg.LinearRegionItem):
@@ -32,6 +34,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # File menu
         self.menu_file_open_action.setShortcut("Ctrl+O")
         self.menu_file_open_action.triggered.connect(self.open_file)
+
+        # Save results menu
+        self.menu_save_results_action.setShortcut("Ctrl+S")
+        self.menu_save_results_action.triggered.connect(self.save_results)
 
         # Combo boxes
         self.topAxesComboBox.currentIndexChanged.connect(self.change_top_axes)
@@ -264,12 +270,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def cbfv_region(self):
         return self.cbfv[self.indexes_region]
 
+    def save_file_name(self, ext):
+        return f"{Path(self.file_name).stem}.{ext}"
+
     def _save_last_dir(self, file_name):
         self.last_dir = os.path.dirname(file_name)
 
     def _set_file_name(self, file_path):
         file_name = os.path.basename(file_path)
         self.lineEditFileName.setText(file_name)
+        return file_name
 
     def _update_edit_time_ranges(self, region):
         self.lineEditStartTimeAxes.setText(f"{region[0]:.2f}")
@@ -288,7 +298,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self._save_last_dir(self.file_path)
             # self.time, self.cbv, self.abp = open_csv_file(self.file_name)
             self.time, self.abp, self.cbfv = open_data_frame(self.file_path)
-            self._set_file_name(self.file_path)
+            self.file_name = self._set_file_name(self.file_path)
 
             self._original_time = self.time.copy()
             self._original_abp = self.abp.copy()
@@ -331,10 +341,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.change_top_axes()
         self.change_bottom_axes()
 
+    def save_results(self):
+        file_path, _ = QFileDialog.getSaveFileName(
+            self,
+            caption="Save results",
+            dir=os.path.join(self.last_dir, self.save_file_name(ext="csv")),
+            filter="CSV files (*.csv)",
+        )
+        if file_path:
+            export_as_csv(file_path, self.results)
+
+    def post_analysis(self):
+        self._update_info_status(status="success")
+        self.menu_save_results_action.setEnabled(True)
+
     def safe_analyze(self):
         try:
             self.analyze()
-            self._update_info_status(status="success")
+            self.post_analysis()
         except Exception:
             # TODO: improve logging and save it files
             msg = traceback.format_exc()

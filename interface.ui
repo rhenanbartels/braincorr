@@ -1244,12 +1244,21 @@
      <string>File</string>
     </property>
     <addaction name="menu_file_open_action"/>
+    <addaction name="menu_save_results_action"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
   <action name="menu_file_open_action">
    <property name="text">
     <string>Open</string>
+   </property>
+  </action>
+  <action name="menu_save_results_action">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Save Results</string>
    </property>
   </action>
  </widget>
