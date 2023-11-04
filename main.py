@@ -5,7 +5,7 @@ from functools import partial
 from pathlib import Path
 
 from PySide6.QtCore import QCoreApplication, Qt
-from PySide6.QtGui import QBrush, QColor
+from PySide6.QtGui import QBrush, QColor, QIcon
 from PySide6.QtWidgets import QApplication, QFileDialog, QMainWindow, QTableWidgetItem
 
 import numpy
@@ -28,6 +28,8 @@ COMBO_TWIN_INDEX = 5
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
+        icon_path = os.path.join("icons", "brain.png")
+        self.setWindowIcon(QIcon(icon_path))
         self.setupUi(self)
         self.showMaximized()
 
