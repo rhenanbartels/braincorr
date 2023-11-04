@@ -170,7 +170,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.resultsTable.setItem(3, 6, QTableWidgetItem(f"{results['std_cbfv']:.2f}"))
         self.resultsTable.setItem(4, 6, QTableWidgetItem(f"{int(results['n_windows'])}"))
 
-    def _update_info_status(self, status="success", msg=None):
+    def _update_info_status(self, msg, status="success"):
         green = (
             "#statusColor {\n\tbackground-color: rgb(0,255,0); \n\tcolor: rgb(0,255,0);"
             "\n\tborder-radius: 4px\n}"
@@ -181,10 +181,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         )
         if status == "error":
             self.statusColor.setStyleSheet(red)
-            self.statusLabel.setText("Error")
         elif status == "success":
             self.statusColor.setStyleSheet(green)
-            self.statusLabel.setText("Ready")
+
+        self.statusLabel.setText(msg)
 
     def _toggle_coherence_threshold(self):
         self.coherenceThreshold.setEnabled(not self.radioButtonSimulatedCoherence.isChecked())
@@ -293,11 +293,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             "CSV files (*.txt)"
         )
         if self.file_path:
-            self._restart_config_variables()
+            # self.time, self.cbv, self.abp = open_csv_file(self.file_name)
+            try:
+                time, abp, cbfv = open_data_frame(self.file_path)
+                self._restart_config_variables()
+            except Exception as exc:
+                self._update_info_status(msg="Error. Could not open file", status="error")
+                # TODO: improve logging and save traceback
+                print(exc)
+                return
+
+            self.time = time
+            self.abp = abp
+            self.cbfv = cbfv
 
             self._save_last_dir(self.file_path)
-            # self.time, self.cbv, self.abp = open_csv_file(self.file_name)
-            self.time, self.abp, self.cbfv = open_data_frame(self.file_path)
+
+            self._update_info_status(msg="Ready", status="success")
             self.file_name = self._set_file_name(self.file_path)
 
             self._original_time = self.time.copy()
@@ -352,19 +364,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             export_as_csv(file_path, self.results)
 
     def post_analysis(self):
-        self._update_info_status(status="success")
+        self._update_info_status(msg="Ready", status="success")
         self.menu_save_results_action.setEnabled(True)
 
     def safe_analyze(self):
         try:
             self.analyze()
             self.post_analysis()
+            self._update_info_status(status="success", msg="Ready")
         except Exception:
             # TODO: improve logging and save it files
             msg = traceback.format_exc()
             print(msg)
             self._set_empty_table()
-            self._update_info_status(status="error")
+            self._update_info_status(msg="Error analyzing signals", status="error")
 
     def change_top_axes(self):
         p_plot_abp_cbfv = partial(self.plot_abp_cbfv, name="top")
