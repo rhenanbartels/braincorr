@@ -292,12 +292,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self,
             "Select file",
             self.last_dir,
-            "CSV files (*.txt)"
+            "CSV files (*.csv)"
         )
         if self.file_path:
-            # self.time, self.cbv, self.abp = open_csv_file(self.file_name)
             try:
-                time, abp, cbfv = open_data_frame(self.file_path)
+                time, cbfv, abp = open_csv_file(self.file_path)
+                # time, abp, cbfv = open_data_frame(self.file_path)
                 self._restart_config_variables()
             except Exception as exc:
                 self._update_info_status(msg="Error. Could not open file", status="error")
