@@ -549,7 +549,7 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"WaveFlow - alfa version", None))
         self.menu_file_open_action.setText(QCoreApplication.translate("MainWindow", u"Open", None))
         self.menu_save_results_action.setText(QCoreApplication.translate("MainWindow", u"Save Results", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Interp. Method:", None))
