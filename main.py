@@ -4,6 +4,14 @@ import traceback
 from functools import partial
 from pathlib import Path
 
+import os
+
+import PySide6
+
+dirname = os.path.dirname(PySide6.__file__)
+plugin_path = os.path.join(dirname, 'plugins', 'platforms')
+os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = plugin_path
+
 from PySide6.QtCore import QCoreApplication, Qt
 from PySide6.QtGui import QBrush, QColor, QIcon
 from PySide6.QtWidgets import QApplication, QFileDialog, QMainWindow, QTableWidgetItem
