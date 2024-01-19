@@ -78,6 +78,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.radioButtonApplyCoherence.toggled.connect(self.safe_analyze)
         self.radioButtonSimulatedCoherence.toggled.connect(self.safe_analyze)
         self.radioButtonSimulatedCoherence.toggled.connect(self._toggle_coherence_threshold)
+        self.radioButtonShowMarkers.toggled.connect(self.change_both_axes)
 
         self._restart_config_variables()
 
@@ -280,6 +281,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def cbfv_region(self):
         return self.cbfv[self.indexes_region]
 
+    @property
+    def plot_marker(self):
+        return "o" if self.radioButtonShowMarkers.isChecked() else None
+
     def save_file_name(self, ext):
         return f"{Path(self.file_name).stem}.{ext}"
 
@@ -360,8 +365,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self._fill_table_results(self.results)
 
         # Update plots
-        self.change_top_axes()
-        self.change_bottom_axes()
+        self.change_both_axes()
 
     def save_results(self):
         file_path, _ = QFileDialog.getSaveFileName(
@@ -388,6 +392,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print(msg)
             self._set_empty_table()
             self._update_info_status(msg="Error analyzing signals", status="error")
+
+    def change_both_axes(self):
+        self.change_top_axes()
+        self.change_bottom_axes()
 
     def change_top_axes(self):
         p_plot_abp_cbfv = partial(self.plot_abp_cbfv, name="top")
@@ -610,7 +618,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.purge_multiple_axes(axes)
         if clear:
             axes.clear()
-        axes.plot(time, signal, pen=pg.mkPen(color,  width=2), name=name)
+        axes.plot(time, signal, pen=pg.mkPen(color,  width=2), name=name, symbol=self.plot_marker)
         axes.setLabel("left", ylabel)
         axes.setLabel("bottom", xlabel)
         axes.showGrid(x=True, y=True, alpha=1.0)
