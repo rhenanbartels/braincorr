@@ -890,7 +890,7 @@
              </font>
             </property>
             <property name="text">
-             <string>Top Axes:</string>
+             <string>Top Panel:</string>
             </property>
            </widget>
           </item>
@@ -1000,7 +1000,7 @@
              </font>
             </property>
             <property name="text">
-             <string>Bottom Axes:</string>
+             <string>Bottom Panel:</string>
             </property>
            </widget>
           </item>
@@ -1008,7 +1008,7 @@
            <widget class="QComboBox" name="bottomAxesComboBox">
             <property name="minimumSize">
              <size>
-              <width>200</width>
+              <width>116</width>
               <height>30</height>
              </size>
             </property>
@@ -1054,7 +1054,7 @@
            <widget class="QComboBox" name="topAxesComboBox">
             <property name="minimumSize">
              <size>
-              <width>200</width>
+              <width>116</width>
               <height>30</height>
              </size>
             </property>
