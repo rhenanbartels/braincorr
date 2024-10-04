@@ -41,6 +41,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.showMaximized()
 
+        # Hide vertical scroll
+        self.resultsTable.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+
         # File menu
         self.menu_file_open_action.setShortcut("Ctrl+O")
         self.menu_file_open_action.triggered.connect(self.open_file)
