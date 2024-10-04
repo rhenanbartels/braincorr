@@ -4,8 +4,8 @@ import scipy
 
 
 def open_data_frame(file_path):
-    data = pandas.read_csv(file_path, sep="\t")
-    return data["Time"].values, data["MABP [mmHg]"].values, data["CBFV-L [cm/s]"].values
+    data = pandas.read_csv(file_path)
+    return data["Time"].values, data["abp"].values, data["cbfv_simulated"].values
 
 
 def open_csv_file(file_path):

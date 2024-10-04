@@ -331,8 +331,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self._original_abp = self.abp.copy()
             self._original_cbfv = self.cbfv.copy()
 
-            self.plot_cbfv(self.top_axes)
-            self.plot_abp(self.bottom_axes)
+            self.plot_abp(self.top_axes)
+            self.plot_cbfv(self.bottom_axes)
             self._update_edit_time_ranges(region=(0, self.duration))
 
             # Update signal region limit
@@ -403,8 +403,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.top_axes.removeItem(self.plot_item)
             self.bottom_axes.removeItem(self.view_box)
         {
-            0: self.plot_cbfv,
-            1: self.plot_cbfv_psd,
+            0: self.plot_abp,
+            1: self.plot_abp_psd,
             2: self.plot_gain,
             3: self.plot_coherence,
             4: self.plot_phase,
@@ -417,8 +417,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.bottom_axes.removeItem(self.plot_item)
             self.bottom_axes.removeItem(self.view_box)
         {
-            0: self.plot_abp,
-            1: self.plot_abp_psd,
+            0: self.plot_cbfv,
+            1: self.plot_cbfv_psd,
             2: self.plot_gain,
             3: self.plot_coherence,
             4: self.plot_phase,
@@ -485,7 +485,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             xlim=[0, self.duration],
             color="g"
         )
-        self.top_roi = self.add_roi(self.top_axes, self.update_top_roi)
+        self.bottom_roi = self.add_roi(self.bottom_axes, self.update_bottom_roi)
 
     def plot_cbfv_psd(self, axes):
         self.plot_psd(
@@ -507,7 +507,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             xlim=[0, self.duration],
             color="y"
         )
-        self.bottom_roi = self.add_roi(self.bottom_axes, self.update_bottom_roi)
+        self.top_roi = self.add_roi(self.top_axes, self.update_top_roi)
 
     def plot_abp_psd(self, axes):
         self.plot_psd(

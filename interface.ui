@@ -1020,12 +1020,12 @@
             </property>
             <item>
              <property name="text">
-              <string>ABP - Signal</string>
+              <string>CBFV - Signal</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>ABP - PSD</string>
+              <string>CBFV - PSD</string>
              </property>
             </item>
             <item>
@@ -1066,12 +1066,12 @@
             </property>
             <item>
              <property name="text">
-              <string>CBFV - Signal</string>
+              <string>ABP - Signal</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>CBFV - PSD</string>
+              <string>ABP - PSD</string>
              </property>
             </item>
             <item>
