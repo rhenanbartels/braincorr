@@ -41,6 +41,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.showMaximized()
 
+        # Disable axes auto range button
+        self.top_axes.hideButtons()
+        self.bottom_axes.hideButtons()
+
         # Hide vertical scroll
         self.resultsTable.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
