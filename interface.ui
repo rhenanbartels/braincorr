@@ -20,7 +20,35 @@
    <string>CardioBrain 0.0.1</string>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">QMainWindow {
+    background-color: black;
+}
+
+QLabel {
+	color: rgb(152, 152, 152);
+}
+
+QMenuBar {
+    background-color: black;
+}
+
+QMenuBar::item {
+	background-color: black;
+    color: rgb(152, 152, 152);
+    font-weight: bold;
+    font-size: 120px;
+}
+
+
+QTableWidget::item {
+    background-color: black;   /* Cor de fundo dos itens (células) */
+    color: rgb(152, 152, 152);              /* Cor do texto das células */
+}
+QHeaderView::section {
+    background-color: black;   /* Cor de fundo do cabeçalho */
+    color: white;              /* Cor do texto do cabeçalho */
+}
+</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_3">
@@ -1258,7 +1286,11 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QTableWidget" name="resultsTable"/>
+           <widget class="QTableWidget" name="resultsTable">
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(0, 0, 0);</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -1276,6 +1308,9 @@
      <width>1500</width>
      <height>19</height>
     </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::WheelFocus</enum>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">

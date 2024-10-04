@@ -30,7 +30,35 @@ class Ui_MainWindow(object):
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(1500, 1000)
         MainWindow.setMinimumSize(QSize(1500, 1000))
-        MainWindow.setStyleSheet(u"")
+        MainWindow.setStyleSheet(u"QMainWindow {\n"
+"    background-color: black;\n"
+"}\n"
+"\n"
+"QLabel {\n"
+"	color: rgb(152, 152, 152);\n"
+"}\n"
+"\n"
+"QMenuBar {\n"
+"    background-color: black;\n"
+"}\n"
+"\n"
+"QMenuBar::item {\n"
+"	background-color: black;\n"
+"    color: rgb(152, 152, 152);\n"
+"    font-weight: bold;\n"
+"    font-size: 120px;\n"
+"}\n"
+"\n"
+"\n"
+"QTableWidget::item {\n"
+"    background-color: black;   /* Cor de fundo dos itens (c\u00e9lulas) */\n"
+"    color: rgb(152, 152, 152);              /* Cor do texto das c\u00e9lulas */\n"
+"}\n"
+"QHeaderView::section {\n"
+"    background-color: black;   /* Cor de fundo do cabe\u00e7alho */\n"
+"    color: white;              /* Cor do texto do cabe\u00e7alho */\n"
+"}\n"
+"")
         self.menu_file_open_action = QAction(MainWindow)
         self.menu_file_open_action.setObjectName(u"menu_file_open_action")
         self.menu_save_results_action = QAction(MainWindow)
@@ -536,6 +564,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.resultsTable = QTableWidget(self.frame_5)
         self.resultsTable.setObjectName(u"resultsTable")
+        self.resultsTable.setStyleSheet(u"background-color: rgb(0, 0, 0);")
 
         self.verticalLayout_3.addWidget(self.resultsTable)
 
@@ -549,6 +578,7 @@ class Ui_MainWindow(object):
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
         self.menubar.setGeometry(QRect(0, 0, 1500, 19))
+        self.menubar.setFocusPolicy(Qt.WheelFocus)
         self.menuFile = QMenu(self.menubar)
         self.menuFile.setObjectName(u"menuFile")
         MainWindow.setMenuBar(self.menubar)
