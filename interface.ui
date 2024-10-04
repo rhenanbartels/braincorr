@@ -385,7 +385,7 @@
              </font>
             </property>
             <property name="text">
-             <string>Resampling Frequency:</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Resampling Freq. &lt;span style=&quot; vertical-align:sub;&quot;&gt;(Hz)&lt;/span&gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
           </item>
@@ -420,7 +420,7 @@
              </font>
             </property>
             <property name="text">
-             <string>Segment Size:</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Segment Size &lt;span style=&quot; vertical-align:sub;&quot;&gt;(n)&lt;/span&gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
           </item>
@@ -461,7 +461,7 @@
              </font>
             </property>
             <property name="text">
-             <string>Overlap Size:</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Overlap Size &lt;span style=&quot; vertical-align:sub;&quot;&gt;(n)&lt;/span&gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
           </item>
@@ -514,7 +514,7 @@
              </font>
             </property>
             <property name="text">
-             <string>Zero Padding::</string>
+             <string>Zero Padding (n):</string>
             </property>
            </widget>
           </item>
