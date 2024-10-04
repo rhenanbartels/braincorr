@@ -563,7 +563,7 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"CardioBrain 0.0.1", None))
         self.menu_file_open_action.setText(QCoreApplication.translate("MainWindow", u"Open", None))
         self.menu_save_results_action.setText(QCoreApplication.translate("MainWindow", u"Save Results", None))
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"-", None))
