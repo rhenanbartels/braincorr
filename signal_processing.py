@@ -131,7 +131,7 @@ def tfa(abp, cbfv, fs, options: dict = None):
 
     coherence_thresholds = {
         3: 0.51,
-        4: 0.40,
+        4: 0.41,
         5: 0.34,
         6: 0.29,
         7: 0.25,
@@ -143,7 +143,8 @@ def tfa(abp, cbfv, fs, options: dict = None):
         13: 0.14,
         14: 0.13,
         15: 0.12,
-
+        20: 0.09,
+        25: 0.08,
     }
     default_options = {
         "vlf": (0.02, 0.07),
