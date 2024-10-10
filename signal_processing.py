@@ -74,26 +74,42 @@ def frequency_bands_results(frequency, pxx, pyy, gain, phase, coherence, options
     }
 
 
-def welch(x, y, window, overlap, fs, nfft):
-    window_size = len(window)
-    shift = window_size - overlap
-    n_windows = int((len(x) - window_size) / shift) + 1
-    start = 0
-    end = window_size
-    x_fft = numpy.zeros((window_size, n_windows), dtype=complex)
-    y_fft = numpy.zeros((window_size, n_windows), dtype=complex)
-    for index in range(n_windows):
-        x_fft[:, index] = scipy.fft.fft(x[start:end] * window)
-        y_fft[:, index] = scipy.fft.fft(y[start:end] * window)
-        start += shift
-        end += shift
+def welch(x, y, segment_size, overlap, window_fun, fs, nfft):
+    n_windows = int((len(x) - segment_size) / (segment_size - overlap)) + 1
 
     frequency = numpy.arange(0, fs, fs / nfft)
+    _, pxx = scipy.signal.welch(
+        x,
+        fs=fs,
+        window=window_fun(segment_size),
+        nperseg=segment_size,
+        noverlap=overlap,
+        nfft=None,
+        detrend=False,
+        return_onesided=False,
+    )
+    _, pyy = scipy.signal.welch(
+        y,
+        fs=fs,
+        window=window_fun(segment_size),
+        nperseg=segment_size,
+        noverlap=overlap,
+        nfft=None,
+        detrend=False,
+        return_onesided=False,
+    )
 
-    window_energy = numpy.sum(window ** 2)
-    pxx = numpy.sum(numpy.real(x_fft * numpy.conj(x_fft)), axis=1) / n_windows / window_energy / fs
-    pyy = numpy.sum(numpy.real(y_fft * numpy.conj(y_fft)), axis=1) / n_windows / window_energy / fs
-    pxy = numpy.sum(numpy.conj(x_fft) * y_fft, axis=1) / n_windows / window_energy / fs
+    _, pxy = scipy.signal.csd(
+        x,
+        y,
+        fs=fs,
+        window=window_fun(segment_size),
+        nperseg=segment_size,
+        noverlap=overlap,
+        nfft=None,
+        detrend=False,
+        return_onesided=False,
+    )
 
     return frequency, pxx, pyy, pxy, n_windows
 
@@ -164,14 +180,14 @@ def tfa(abp, cbfv, fs, options: dict = None):
     if options["normalize_abp"]:
         abp = (abp / avg_abp) * 100
 
-    window = options.get("window")(options.get("segment_size"))
     frequency, pxx, pyy, pxy, n_windows, = welch(
-        abp,
-        cbfv,
-        window,
-        options.get("overlap"),
-        fs,
-        options.get("nfft"),
+        x=abp,
+        y=cbfv,
+        window_fun=options.get("window"),
+        segment_size=options.get("segment_size"),
+        overlap=options.get("overlap"),
+        fs=fs,
+        nfft=options.get("nfft"),
     )
 
     # Smoothing
