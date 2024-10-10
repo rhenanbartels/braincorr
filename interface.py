@@ -281,7 +281,6 @@ class Ui_MainWindow(object):
         self.windowComboBox.addItem("")
         self.windowComboBox.addItem("")
         self.windowComboBox.addItem("")
-        self.windowComboBox.addItem("")
         self.windowComboBox.setObjectName(u"windowComboBox")
         self.windowComboBox.setMinimumSize(QSize(116, 30))
 
@@ -634,7 +633,6 @@ class Ui_MainWindow(object):
         self.windowComboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"Hanning", None))
         self.windowComboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"Hamming", None))
         self.windowComboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"Rectangular", None))
-        self.windowComboBox.setItemText(3, QCoreApplication.translate("MainWindow", u"-", None))
 
         self.label_21.setText(QCoreApplication.translate("MainWindow", u"Simulated Threshold:", None))
         self.radioButtonApplyCoherence.setText("")

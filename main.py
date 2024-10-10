@@ -364,6 +364,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             "hf": self.hf_range,
             "segment_size": self.analysis_options["segment_size"],
             "overlap": self.analysis_options["overlap_size"],
+            "window": self.analysis_options["window"],
             "nfft": self.analysis_options["segment_size"],  # TODO: allow use of zero padding
             "coherence_threshold": self.coherence_threshold,
             "apply_coherence_threshold": self.radioButtonApplyCoherence.isChecked(),
