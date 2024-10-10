@@ -47,7 +47,7 @@ def band_coherence(coherence, indexes):
 
 
 def band_power(psd, indexes, freq_resolution):
-    return 2 * sum(psd[indexes]) * freq_resolution
+    return 2 * numpy.nansum(psd[indexes]) * freq_resolution
 
 
 def frequency_bands_results(frequency, pxx, pyy, gain, phase, coherence, options):
