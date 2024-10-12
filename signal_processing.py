@@ -274,18 +274,18 @@ def _create_interp_time(time, fs):
     return numpy.arange(time[0], time[-1] + time_resolution, time_resolution)
 
 
-def _shift_signal(signal, fs, shift_seconds):
+def shift_signal(time, signal, fs, shift_seconds):
     shift_points = int(shift_seconds * fs)
     signal_shifted = numpy.roll(signal, shift_points)
     if shift_points > 0:
-        signal_shifted[:shift_points] = 0
+        signal_shifted[:shift_points] = numpy.nan
     elif shift_points < 0:
-        signal_shifted[shift_points:] = 0
+        signal_shifted[shift_points:] = numpy.nan
 
     return signal_shifted
 
 
-def shift_signal(time, signal, fs, shift_seconds):
+def _shift_signal(time, signal, fs, shift_seconds):
     shift_points = int(shift_seconds * fs)
     signal_shifted = numpy.roll(signal, shift_points)
 
