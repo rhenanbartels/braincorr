@@ -272,3 +272,27 @@ def cubic_spline(time, signal, fs):
 def _create_interp_time(time, fs):
     time_resolution = 1 / float(fs)
     return numpy.arange(time[0], time[-1] + time_resolution, time_resolution)
+
+
+def _shift_signal(signal, fs, shift_seconds):
+    shift_points = int(shift_seconds * fs)
+    signal_shifted = numpy.roll(signal, shift_points)
+    if shift_points > 0:
+        signal_shifted[:shift_points] = 0
+    elif shift_points < 0:
+        signal_shifted[shift_points:] = 0
+
+    return signal_shifted
+
+
+def shift_signal(time, signal, fs, shift_seconds):
+    shift_points = int(shift_seconds * fs)
+    signal_shifted = numpy.roll(signal, shift_points)
+
+    interp_signal = cubic_spline(time, signal, fs)
+    if shift_points > 0:
+        signal_shifted[:shift_points] = interp_signal[:shift_points]
+    elif shift_points < 0:
+        signal_shifted[shift_points:] = interp_signal[shift_points:]
+
+    return signal_shifted

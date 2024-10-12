@@ -12,8 +12,8 @@ dirname = os.path.dirname(PySide6.__file__)
 plugin_path = os.path.join(dirname, 'plugins', 'platforms')
 os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = plugin_path
 
-from PySide6.QtCore import QCoreApplication, Qt
-from PySide6.QtGui import QBrush, QColor, QIcon
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QFileDialog, QMainWindow, QTableWidgetItem
 
 import numpy
@@ -22,7 +22,14 @@ import pyqtgraph as pg
 
 from export import export_as_csv
 from interface import Ui_MainWindow
-from signal_processing import cubic_spline, linear_interp, open_csv_file, open_data_frame, tfa
+from signal_processing import (
+    cubic_spline,
+    linear_interp,
+    open_csv_file,
+    open_data_frame,
+    shift_signal,
+    tfa,
+)
 
 
 class CustomLinearRegionItem(pg.LinearRegionItem):
@@ -86,6 +93,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.radioButtonSimulatedCoherence.toggled.connect(self.safe_analyze)
         self.radioButtonSimulatedCoherence.toggled.connect(self._toggle_coherence_threshold)
         self.radioButtonShowMarkers.toggled.connect(self.change_both_axes)
+
+        # Shift CBFV
+        self.lineEditShiftCBFV.setText("0.00")
+        self.lineEditShiftCBFV.editingFinished.connect(self.shift_cbfv)
 
         self._restart_config_variables()
 
@@ -325,6 +336,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 print(exc)
                 return
 
+            self.fs = int(self.resamplingFrequency.text())
             self.time = time
             self.abp = abp
             self.cbfv = cbfv
@@ -400,6 +412,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print(msg)
             self._set_empty_table()
             self._update_info_status(msg="Error analyzing signals", status="error")
+
+    def shift_cbfv(self):
+        shift_seconds = float(self.lineEditShiftCBFV.text())
+        self.cbfv = shift_signal(
+            self._original_time,
+            self._original_cbfv.copy(),
+            fs=self.fs,
+            shift_seconds=shift_seconds,
+        )
+        self.change_bottom_axes()
+        self.analyze()
 
     def change_both_axes(self):
         self.change_top_axes()
