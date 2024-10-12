@@ -686,9 +686,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         curve_item = pg.PlotCurveItem(
             self.time,
             self.cbfv,
-            pen=pg.mkPen("g",  width=2)
+            pen=pg.mkPen("g",  width=2),
         )
         view_box.addItem(curve_item)
+
+        if self.plot_marker:
+            markerItem = pg.ScatterPlotItem(
+                self.time,
+                self.cbfv,
+                symbol=self.plot_marker,
+                brush="#FF999C",
+            )
+            view_box.addItem(markerItem)
+
         plot_item.legend.addItem(curve_item, "CBFV")
 
         def update_views(plot_item, view_box, *args):
