@@ -115,8 +115,7 @@ def welch(x, y, segment_size, overlap, window_fun, fs, nfft):
 
 
 def smooth(psd, smooth_factor):
-    triang = numpy.ones((int((smooth_factor + 1) / 2), 1))
-    triang = (triang / sum(triang)).flatten()
+    triang = [0.25, 0.5, 0.25]  # White paper recommendation #13
     psd_copy = psd.copy()
     psd_copy[0] = psd[1]
     psd_filt = scipy.signal.filtfilt(triang, 1, psd_copy)
