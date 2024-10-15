@@ -29,7 +29,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>CardioBrain 0.0.1</string>
+   <string>CardioBrain 1.0.0</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QMainWindow {
