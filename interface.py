@@ -30,7 +30,6 @@ class Ui_MainWindow(object):
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(1500, 1000)
         MainWindow.setMinimumSize(QSize(1500, 1000))
-        MainWindow.setMaximumSize(QSize(1500, 1000))
         font = QFont()
         font.setPointSize(12)
         font.setBold(False)
