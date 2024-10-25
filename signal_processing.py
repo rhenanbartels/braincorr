@@ -251,7 +251,7 @@ def tfa(abp, cbfv, fs, options: dict = None):
     results["pxy"] = abs(pxy)
     results["gain"] = abs(gain)
     results["coherence"] = abs(coherence) ** 2
-    results["phase"] = abs(phase)
+    results["phase"] = phase
     results["coherence_threshold"] = coherence_threshold
     results["frequency"] = frequency
     return results
