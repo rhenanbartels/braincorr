@@ -4,8 +4,6 @@ import traceback
 from functools import partial
 from pathlib import Path
 
-import os
-
 import PySide6
 
 dirname = os.path.dirname(PySide6.__file__)
@@ -339,7 +337,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.time = time
             self.abp = abp
             self.cbfv = cbfv
-            self.fs = 1.0 / time[1] - time[0]
+            self.fs = round(1.0 / time[1] - time[0])
 
             self._save_last_dir(self.file_path)
 
