@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 import numpy
 import pandas
 import scipy
@@ -8,26 +10,61 @@ def open_data_frame(file_path):
     return data["Time"].values, data["abp"].values, data["cbfv_simulated"].values
 
 
+def parse_timecode(timecode):
+    # Separe o valor de décimos de segundo
+    base_time, tenths = timecode.rsplit(":", 1)
+    # Converta para datetime com strptime
+    time_obj = datetime.strptime(base_time, "%H:%M:%S")
+    # Converta para timedelta e adicione os décimos de segundo
+    result = timedelta(hours=time_obj.hour, minutes=time_obj.minute, seconds=time_obj.second)
+    result += timedelta(seconds=int(tenths) * 0.01)
+    result = int(result.total_seconds() * 1000) / 1000.0
+    return result
+
+
+def parse_float(value):
+    return float(value.replace(",", "."))
+
+
+def check_time_format(time_0):
+    try:
+        parse_float(time_0)
+        is_rri = True
+        should_resample = True
+    except ValueError:
+        is_rri = False
+        should_resample = False
+
+    return is_rri, should_resample
+
+
 def open_csv_file(file_path):
-    def _format(value):
-        return float(value.replace(",", "."))
 
     with open(file_path) as fid:
         header = fid.readline()
         rows = [r.strip().split(";") for r in fid.readlines()]
-        rri, cbv, abp = [], [], []
+        time, cbv, abp = [], [], []
+
+        # check if first value can be parsed add RRI
+        is_rri, should_resample = check_time_format(rows[0][0])
+        time_parser = parse_float if is_rri else parse_timecode
+
         for row in rows:
             if [r.strip() for r in row] == ["", "", ""]:
                 continue
-            rri.append(_format(row[0]))
-            cbv.append(_format(row[1]))
-            abp.append(_format(row[2]))
+            time.append(time_parser(row[0]))
+            cbv.append(parse_float(row[1]))
+            abp.append(parse_float(row[2]))
 
-        rri = numpy.array(rri)
+        time = numpy.array(time)
         cbv = numpy.array(cbv)
         abp = numpy.array(abp)
-        time = numpy.cumsum(rri) - rri[0]
-        return time, cbv, abp
+
+        if is_rri:
+            time = numpy.cumsum(time)
+
+        time = time - time[0]
+        return time, cbv, abp, should_resample
 
 
 def band_indexes(frequency, lower, upper):

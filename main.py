@@ -325,7 +325,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         )
         if self.file_path:
             try:
-                time, cbfv, abp = open_csv_file(self.file_path)
+                time, cbfv, abp, should_resample = open_csv_file(self.file_path)
                 # time, abp, cbfv = open_data_frame(self.file_path)
                 self._restart_config_variables()
             except Exception as exc:
@@ -338,6 +338,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.abp = abp
             self.cbfv = cbfv
             self.fs = round(1.0 / time[1] - time[0])
+            self.should_resample = should_resample
 
             self._save_last_dir(self.file_path)
 
@@ -360,14 +361,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # Signal Processing
             self.safe_analyze()
 
+    def get_signals_for_analysis(self, time, abp, cbfv, fs, should_resample):
+        if should_resample:
+            fs = self.analysis_options["resampling_frequency"]
+            analysis_abp = self.analysis_options["interp_method"](time, abp, fs)
+            analysis_cbfv = self.analysis_options["interp_method"](time, cbfv, fs)
+        else:
+            analysis_abp = abp
+            analysis_cbfv = cbfv
+
+        return analysis_abp, analysis_cbfv, fs
+
     def analyze(self):
         # Generalize this check
         if self.time is None:
             return
 
-        fs = self.analysis_options["resampling_frequency"]
-        interp_abp = self.analysis_options["interp_method"](self.time_region, self.abp_region, fs)
-        interp_cbfv = self.analysis_options["interp_method"](self.time_region, self.cbfv_region, fs)
+        analysis_abp, analysis_cbfv, fs = self.get_signals_for_analysis(
+            self.time_region,
+            self.abp_region,
+            self.cbfv_region,
+            self.fs,
+            self.should_resample,
+        )
+
         options = {
             "vlf": self.vlf_range,
             "lf": self.lf_range,
@@ -379,7 +396,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             "coherence_threshold": self.coherence_threshold,
             "apply_coherence_threshold": self.radioButtonApplyCoherence.isChecked(),
         }
-        self.results = tfa(interp_abp, interp_cbfv, fs, options=options)
+        self.results = tfa(analysis_abp, analysis_cbfv, fs, options=options)
         self._fill_table_results(self.results)
 
         # Update plots
