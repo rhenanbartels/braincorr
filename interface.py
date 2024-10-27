@@ -68,6 +68,8 @@ class Ui_MainWindow(object):
         self.menu_save_results_action = QAction(MainWindow)
         self.menu_save_results_action.setObjectName(u"menu_save_results_action")
         self.menu_save_results_action.setEnabled(False)
+        self.menu_about_action = QAction(MainWindow)
+        self.menu_about_action.setObjectName(u"menu_about_action")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout_3 = QGridLayout(self.centralwidget)
@@ -611,6 +613,9 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuFile.menuAction())
         self.menuFile.addAction(self.menu_file_open_action)
         self.menuFile.addAction(self.menu_save_results_action)
+        self.menuFile.addSeparator()
+        self.menuFile.addSeparator()
+        self.menuFile.addAction(self.menu_about_action)
 
         self.retranslateUi(MainWindow)
 
@@ -621,6 +626,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"CardioBrain 1.0.1", None))
         self.menu_file_open_action.setText(QCoreApplication.translate("MainWindow", u"Open", None))
         self.menu_save_results_action.setText(QCoreApplication.translate("MainWindow", u"Save Results", None))
+        self.menu_about_action.setText(QCoreApplication.translate("MainWindow", u"About", None))
         self.label_21.setText(QCoreApplication.translate("MainWindow", u"Simulated Threshold:", None))
         self.radioButtonApplyCoherence.setText("")
         self.coherenceThreshold.setInputMask(QCoreApplication.translate("MainWindow", u"0.00", None))

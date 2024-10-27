@@ -10,14 +10,23 @@ dirname = os.path.dirname(PySide6.__file__)
 plugin_path = os.path.join(dirname, 'plugins', 'platforms')
 os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = plugin_path
 
-from PySide6.QtCore import Qt
+from PySide6.QtCore import QSize, Qt
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QApplication, QFileDialog, QMainWindow, QTableWidgetItem
+from PySide6.QtWidgets import (
+    QApplication,
+    QDialog,
+    QFileDialog,
+    QLabel,
+    QMainWindow,
+    QTableWidgetItem,
+    QVBoxLayout,
+)
 
 import numpy
 import scipy
 import pyqtgraph as pg
 
+import about
 from export import export_as_csv
 from interface import Ui_MainWindow
 from signal_processing import (
@@ -30,9 +39,25 @@ from signal_processing import (
 )
 
 
+VERSION = "1.0.1"
+
+
 class CustomLinearRegionItem(pg.LinearRegionItem):
     def lineMoveFinished(self):
         pass
+
+
+class AboutQDialog(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle(f"About CardioBrain v{VERSION}")
+        self.setStyleSheet("background:black;color:white")
+        self.layout = QVBoxLayout()
+        message = QLabel(about.content)
+        message.setTextInteractionFlags(Qt.TextSelectableByMouse)
+        self.layout.addWidget(message)
+        self.setLayout(self.layout)
+        self.setFixedSize(QSize(700, 240))
 
 
 COMBO_TWIN_INDEX = 5
@@ -60,6 +85,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Save results menu
         self.menu_save_results_action.setShortcut("Ctrl+S")
         self.menu_save_results_action.triggered.connect(self.save_results)
+
+        # About menu
+        self.menu_about_action.triggered.connect(self.open_about_dialog)
 
         # Combo boxes
         self.topAxesComboBox.currentIndexChanged.connect(self.change_top_axes)
@@ -315,6 +343,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def _update_edit_time_ranges(self, region):
         self.lineEditStartTimeAxes.setText(f"{region[0]:.2f}")
         self.lineEditEndTimeAxes.setText(f"{region[1]:.2f}")
+
+    def open_about_dialog(self):
+        dialog = AboutQDialog()
+        dialog.exec()
 
     def open_file(self):
         self.file_path, _ = QFileDialog.getOpenFileName(
