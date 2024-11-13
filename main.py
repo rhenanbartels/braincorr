@@ -130,7 +130,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Table data
         self.resultsTable.setRowCount(6)
         self.resultsTable.setColumnCount(7)
-        self.resultsTable.setColumnWidth(0, 150)
+        self.resultsTable.setColumnWidth(0, 170)
         self.resultsTable.setColumnWidth(5, 150)
         self.resultsTable.setHorizontalHeaderLabels(("", "VLF", "LF", "HF", "", "", ""))
         self.resultsTable.setVerticalHeaderLabels(("", "", "", "", "", ""))
@@ -139,8 +139,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.resultsTable.setItem(1, 0, QTableWidgetItem("Gain norm"))
         self.resultsTable.setItem(2, 0, QTableWidgetItem(u"|Coh|\u00B2"))
         self.resultsTable.setItem(3, 0, QTableWidgetItem(u"Phase (deg)"))
-        self.resultsTable.setItem(4, 0, QTableWidgetItem(u"Power ABP (ms\u00B2)"))
-        self.resultsTable.setItem(5, 0, QTableWidgetItem(u"Power CBFV (ms\u00B2)"))
+        self.resultsTable.setItem(4, 0, QTableWidgetItem(u"Power ABP (mmHg\u00B2)"))
+        self.resultsTable.setItem(5, 0, QTableWidgetItem(u"Power CBFV ((cm/s)\u00B2)"))
 
         self.resultsTable.setItem(0, 5, QTableWidgetItem("Avg. ABP (mmHg)"))
         self.resultsTable.setItem(1, 5, QTableWidgetItem("Avg. CBFV (cm/s)"))
@@ -524,6 +524,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             vlf=self.vlf_range,
             lf=self.lf_range,
             hf=self.hf_range,
+            label="PSD ((cm/s)²/Hz)"
         )
 
     def plot_abp(self, axes):
@@ -546,6 +547,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             vlf=self.vlf_range,
             lf=self.lf_range,
             hf=self.hf_range,
+            label="PSD (mmHg²/Hz)",
         )
 
     def plot_gain(self, axes):
@@ -736,7 +738,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self._add_frequency_line(axes, x=[self.hf_range[0], self.hf_range[0]], ylim=ylim)
         self._add_frequency_line(axes, x=[self.hf_range[1], self.hf_range[1]], ylim=ylim)
 
-    def plot_psd(self, axes, frequency, psd, vlf, lf, hf):
+    def plot_psd(self, axes, frequency, psd, vlf, lf, hf, label):
         self.purge_multiple_axes(axes)
 
         # For aesthetic purpose, we are interpolating and resampling the PSD
@@ -786,7 +788,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         )
 
         axes.setRange(xRange=[0, self.hf_range[-1]])
-        axes.setLabel("left", "PSD (ms²/Hz)")
+        axes.setLabel("left", label)
         axes.setLabel("bottom", "Frequency (Hz)")
         axes.showGrid(x=True, y=True, alpha=1.0)
 
