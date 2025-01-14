@@ -3,9 +3,20 @@ import pandas
 import scipy
 
 
+def open_data_file(file_path):
+    open_funcs = [open_csv_file, open_data_frame]
+    for func in open_funcs:
+        try:
+            time, abp, cbfv = func(file_path)
+        except Exception:
+            pass
+
+    return time, abp, cbfv
+
+
 def open_data_frame(file_path):
-    data = pandas.read_csv(file_path)
-    return data["Time"].values, data["abp"].values, data["cbfv_simulated"].values
+    data = pandas.read_csv(file_path, sep="\t")
+    return data["Time"].values, data["MABP [mmHg]"].values, data["CBFV-L [cm/s]"].values
 
 
 def open_csv_file(file_path):
@@ -27,7 +38,7 @@ def open_csv_file(file_path):
         cbv = numpy.array(cbv)
         abp = numpy.array(abp)
         time = numpy.cumsum(rri) - rri[0]
-        return time, cbv, abp
+        return time, abp, cbv
 
 
 def band_indexes(frequency, lower, upper):

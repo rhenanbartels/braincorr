@@ -23,8 +23,7 @@ from interface import Ui_MainWindow
 from signal_processing import (
     cubic_spline,
     linear_interp,
-    open_csv_file,
-    open_data_frame,
+    open_data_file,
     shift_signal,
     tfa,
 )
@@ -321,12 +320,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self,
             "Select file",
             self.last_dir,
-            "CSV files (*.csv)"
+            "All Files (*);;CSV Files (*.csv);;Text Files (*.txt)",
         )
         if self.file_path:
             try:
-                time, cbfv, abp = open_csv_file(self.file_path)
-                # time, abp, cbfv = open_data_frame(self.file_path)
+                time, abp, cbfv = open_data_file(self.file_path)
                 self._restart_config_variables()
             except Exception as exc:
                 self._update_info_status(msg="Error. Could not open file", status="error")
